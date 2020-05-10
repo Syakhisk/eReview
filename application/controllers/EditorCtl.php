@@ -53,8 +53,6 @@ class EditorCtl extends CI_Controller
 		$assignment = $this->Task->getMyAssignedTask();
 		$session_data = $this->session->userdata('logged_in');
 
-		// return;
-
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('editor/view_assigned_task', array('assignment' => $assignment));
 		$this->load->view('common/footer');
