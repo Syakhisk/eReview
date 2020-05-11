@@ -42,7 +42,13 @@
               <td><?= $item['judul']; ?></td>
               <td><?= $item['keywords']; ?></td>
               <td style="display:flex">
-                <strong>Completed</strong>
+              <?php
+                if ($item['status'] == 0) $item['status'] = "Not Yet Accepted";
+                else if ($item['status'] == 1) $item['status'] = "Accepted";
+                else if ($item['status'] == 2) $item['status'] = "Unpaid";
+                else if ($item['status'] == 3) $item['status'] = "Paid";
+                ?>
+                <strong><?= $item['status']; ?></strong>
               </td>
               <td></td>
             </tr>

@@ -85,7 +85,7 @@ class Task extends CI_Model
 
     function getAssignmentByID($id_assignment = -1)
     {
-        $q = "SELECT a.*, t.judul, t1.nama FROM assignment2 a
+        $q = "SELECT a.*, t.judul, t1.nama, t.jumlah_hal, t.authors FROM assignment2 a
             INNER JOIN
             (SELECT u.id_user, u.nama, r.id_reviewer FROM users u 
             INNER JOIN reviewer r
@@ -133,6 +133,30 @@ class Task extends CI_Model
                     ) t0
                 ON t0.id_reviewer = a.id_reviewer
                 WHERE sts_assignment = 1 AND t.id_editor = 1;";
+
+        // echo $q;
+        // return;
+        
+        $res = $this->db->query($q);
+
+        return $res->result_array();
+
+    }
+
+    function getMyAssignedTaskByStatus($status=-1){
+        $id_editor = $this->session->userdata('logged_in')['id_on_grup'];
+        
+        $q = "SELECT * FROM assignment2 a 
+                INNER JOIN task t 
+                ON a.id_task = t.id_task
+                INNER JOIN (
+                    SELECT u.nama, r.id_reviewer FROM reviewer r
+                    INNER JOIN users u ON u.id_user = r.id_user
+                    ) t0
+                ON t0.id_reviewer = a.id_reviewer
+                WHERE sts_assignment = 1 
+                AND t.id_editor = 1
+                AND status = $status;";
 
         // echo $q;
         // return;

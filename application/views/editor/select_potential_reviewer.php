@@ -54,14 +54,12 @@
 												<td>Reviewer(s)</td>
 												<td>:</td>
 												<td>
-													
 
 													<select name="reviewers[]" multiple>
 														<?php foreach($reviewers as $item): ?>
 															<option value="<?= $item['id_reviewer'] ?> "><?= $item['nama'] ?> </option>
 														<?php endforeach; ?>
 													</select>
-													
 
 												</td>
 											</tr>
