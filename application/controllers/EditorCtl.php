@@ -311,6 +311,34 @@ class EditorCtl extends CI_Controller
 		$this->load->view('common/footer');
 	}
 
+	public function commitPayment2($id_assignment = 0)
+	{
+		$this->load->model('Task');
+		$this->load->model('Reviewer');
+		$session_data = $this->session->userdata('logged_in');
+
+
+		$payment_status = 2;
+		$assignments = $this->Task->getMyAssignedTaskByStatus($payment_status);
+
+		if ($id_assignment != 0) {
+			$selected_assignment = $this->Task->getAssignmentByID($id_assignment)[0];
+		} else {
+			$selected_assignment = [];
+		}
+		// var_dump($selected_assignment);
+		// return;
+
+		$this->load->view('common/header_editor', array("session_data" => $session_data));
+		$this->load->view('editor/payment_form', array(
+			'assignments' => $assignments,
+			'selected_id' => $id_assignment,
+			'selected' => $selected_assignment,
+			'error' => []
+		));
+		$this->load->view('common/footer');
+	}
+
 	public function updatepaymentform($payment_status = -1)
 	{
 		$this->load->model('Reviewer');
