@@ -80,6 +80,8 @@ class Reviewer extends CI_Model
     {
         // illegal assignment edit prevention
         $id_reviewer = $this->session->userdata('logged_in')['id_on_grup'];
+        $review_location = $this->session->userdata('review_location');
+        $this->session->unset_userdata('review_location');
 
         $q = "UPDATE assignment2
                 SET status = $value
@@ -97,6 +99,14 @@ class Reviewer extends CI_Model
                     WHERE id_assignment = $id_assignment
                     AND id_reviewer = $id_reviewer;
                     ";
+            $res = $this->db->query($q2);
+
+        } else if ($value == 2) {
+            $q2 = "UPDATE assignment2
+            SET review_location = '$review_location'
+            WHERE id_assignment = $id_assignment
+            AND id_reviewer = $id_reviewer;
+            ";
             $res = $this->db->query($q2);
         }
 

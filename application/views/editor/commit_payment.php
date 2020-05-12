@@ -29,7 +29,10 @@
                     } ?>"><a href="<?= base_url('editorctl/commitpayment/2') ?>">Unpaid</a></li>
         <li class="<?php if ($this->uri->segment(3) == "3") {
                       echo "active";
-                    } ?>"><a href="<?= base_url('editorctl/commitpayment/3') ?>">Paid</a></li>
+                    } ?>"><a href="<?= base_url('editorctl/commitpayment/3') ?>">Awating Makelaar Confirmation</a></li>
+        <li class="<?php if ($this->uri->segment(3) == "4") {
+                      echo "active";
+                    } ?>"><a href="<?= base_url('editorctl/commitpayment/4') ?>">Paid</a></li>
       </ul>
       <div class="row">
         <div class="span6">
@@ -104,15 +107,15 @@
                 <td>Page(s) Count</td>
                 <td>:</td>
                 <td>
-                  <input type="number" name="halaman" value="<?php if ($form['halaman']) echo $form['halaman']; ?>" readonly>
+                  <input type="number" name="halaman" value="<?php if ($form) echo $form['halaman']; ?>" readonly>
                 </td>
               </tr>
 
               <tr>
-                <td>Amount</td>
+                <td>Amount (IDR)</td>
                 <td>:</td>
                 <td>
-                  <input type="number" name="amount" value="<?php if ($form['amount']) echo $form['amount']; ?>" readonly>
+                  <input type="number" name="amount" value="<?php if ($form) echo $form['amount']; ?>" readonly>
                 </td>
               </tr>
 
@@ -132,7 +135,7 @@
             button.addEventListener("click", function(){
               let flag = confirm("Are you sure this is the correct payment?");
               if (flag) {
-                window.location.href = "<?php echo base_url('editorctl/committhispayment'); ?>";
+                window.location.href = "<?php echo base_url('editorctl/committhispayment/'.$task['id_assignment']); ?>";
               }
 
             })

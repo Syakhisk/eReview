@@ -58,6 +58,9 @@
                     <li><a href="<?php echo base_url() . 'editorctl/viewtask'; ?>">View Task</a></li>
                   </ul>
                 </li>
+                <li class="dropdown <?php if($this->uri->segment(2)=="addtask" || $this->uri->segment(2)=="viewtask"){echo "active";}?>">
+                  <a href="#">Payment</a>
+                </li>
                 <li>
                   <a href="contact.html">Contact</a>
                 </li>

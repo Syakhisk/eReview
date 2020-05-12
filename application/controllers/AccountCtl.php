@@ -166,7 +166,7 @@ class AccountCtl extends CI_Controller
 
 			#masukin array ke session
 			$this->session->set_userdata('logged_in', $sess_array);
-
+			
 			switch ($users[0]['id_grup']) {
 				case '1':
 					redirect('editorCtl/index/' . $users[0]['id_user']);

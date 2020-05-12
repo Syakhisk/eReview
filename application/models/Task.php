@@ -49,6 +49,21 @@ class Task extends CI_Model
         return $res->result_array();
     }
 
+    function getAllTaskMakelaar()
+    {
+        $q = "SELECT sq.nama, t.*
+                FROM task t
+                INNER JOIN (SELECT u.nama, e.id_editor
+                                FROM users u 
+                                INNER JOIN editor e
+                                ON u.id_user = e.id_user) sq
+                ON sq.id_editor = t.id_editor
+                WHERE t.sts_task >= 1;
+        ";
+        $res = $this->db->query($q);
+        return $res->result_array();
+    }
+
     function assignTaskTo($id_reviewer = -1, $id_task = -1)
     {
         // add if only not exists
@@ -112,7 +127,7 @@ class Task extends CI_Model
             ON u.id_user = r.id_user
             where r.id_reviewer = $id_reviewer) t1
         ON a.id_reviewer = t1.id_reviewer
-        WHERE a.status=$status";
+        WHERE a.status = $status";
 
         // echo $q;
         // return;
@@ -121,9 +136,26 @@ class Task extends CI_Model
         return $res->result_array();
     }
 
-    function getMyAssignedTask(){
+    function getAssignedTaskMakelaar($status = -1)
+    {
+        $q = "SELECT a.*, t.*, sq.nama AS nama_editor, sq2.nama AS nama_reviewer FROM assignment2 a
+                INNER JOIN task t
+                ON t.id_task = a.id_task
+                INNER JOIN (SELECT u.nama, e.id_editor FROM editor e INNER JOIN users u ON e.id_user = u.id_user) sq
+                ON t.id_editor = sq.id_editor
+                INNER JOIN (SELECT u.nama, r.id_reviewer FROM reviewer r INNER JOIN users u ON r.id_user = u.id_user) sq2
+                ON a.id_reviewer = sq2.id_reviewer
+                WHERE sts_assignment >= 1
+                AND status = $status";
+
+        $res = $this->db->query($q);
+        return $res->result_array();
+    }
+
+    function getMyAssignedTask()
+    {
         $id_editor = $this->session->userdata('logged_in')['id_on_grup'];
-        
+
         $q = "SELECT * FROM assignment2 a 
                 INNER JOIN task t 
                 ON a.id_task = t.id_task
@@ -136,16 +168,16 @@ class Task extends CI_Model
 
         // echo $q;
         // return;
-        
+
         $res = $this->db->query($q);
 
         return $res->result_array();
-
     }
 
-    function getMyAssignedTaskByStatus($status=-1){
+    function getMyAssignedTaskByStatus($status = -1)
+    {
         $id_editor = $this->session->userdata('logged_in')['id_on_grup'];
-        
+
         $q = "SELECT * FROM assignment2 a 
                 INNER JOIN task t 
                 ON a.id_task = t.id_task
@@ -160,10 +192,37 @@ class Task extends CI_Model
 
         // echo $q;
         // return;
-        
+
         $res = $this->db->query($q);
 
         return $res->result_array();
+    }
 
+    function updateThisAssignment($id_assignment = -1, $value = -1)
+    {
+        $id_editor = NULL;
+        $id_makelaar = NULL;
+        $logged_in = $this->session->userdata('logged_in');
+        if ($logged_in['id_grup'] == 1) {
+            //kalo editor
+            $id_editor = $logged_in['id_on_grup'];
+        } else if ($logged_in['id_grup' == 3]) {
+            //kalo makelaar
+            $id_makelaar = $logged_in['id_on_grup'];
+        }
+
+        if ($id_editor) {
+            $q = "UPDATE assignment2 a 
+            INNER JOIN task t
+            ON a.id_task = t.id_task
+            SET status = $value
+            WHERE t.id_editor = $id_editor AND a.id_assignment = $id_assignment;
+            ";
+
+            $res = $this->db->query($q);
+        } else if ($id_makelaar) {
+        }
+
+        return;
     }
 }

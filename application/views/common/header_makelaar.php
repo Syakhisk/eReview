@@ -54,9 +54,9 @@
                 <li class="dropdown">
                   <a href="#">Task</a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url() . 'index.php/makelaarctl/viewnewtask'; ?>">View New Task</a></li>
-                    <li><a href="<?php echo base_url() . 'index.php/makelaarctl/viewongoingtask'; ?>">View On Going Task</a></li>
-                    <li><a href="<?php echo base_url() . 'index.php/makelaarctl/viewcompletedtask'; ?>">View Completed Task</a></li>
+                    <li><a href="<?php echo base_url() . 'index.php/makelaarctl/newtask'; ?>">View New Task</a></li>
+                    <li><a href="<?php echo base_url() . 'index.php/makelaarctl/ongoingtask'; ?>">View On Going Task</a></li>
+                    <li><a href="<?php echo base_url() . 'index.php/makelaarctl/completedtask'; ?>">View Completed Task</a></li>
                   </ul>
                 </li>
                 <li>

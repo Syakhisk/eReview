@@ -73,6 +73,12 @@ class ReviewerCtl extends CI_Controller
 
 		// last argument itu buat nentuin yang completed
 		$assignment = $this->Task->getAssignedTask($session_data['id_on_grup'], 2);
+		$assignmentPaid = $this->Task->getAssignedTask($session_data['id_on_grup'], 3);
+
+		foreach ($assignmentPaid as $item) {
+			array_push($assignment, $item);
+		}
+
 		$session_data = $this->session->userdata('logged_in');
 
 		$this->load->view('common/header_reviewer', array("session_data" => $session_data));
@@ -213,6 +219,9 @@ class ReviewerCtl extends CI_Controller
 
 		$data = array('upload_data' => $this->upload->data());
 
+		$this->session->set_userdata('review_location', $new_name);
+		// echo "hasil loc: ".$this->session->userdata('review_location');
+		// return;
 		#-- update assignment status
 		$submit_return = $this->Reviewer->updateThisAssignment($id_assignment, 2);
 		if ($submit_return == -1) {
@@ -220,6 +229,7 @@ class ReviewerCtl extends CI_Controller
 			echo 'ASSIGNMENT ERROR';
 			return;
 		}
+
 
 		$this->load->view('common/header_reviewer', array("session_data" => $session_data));
 		$this->load->view('reviewer/submit_review_success', array('error' => "", 'task' => $task));
