@@ -50,7 +50,8 @@
                 if ($item['status'] == 0) $item['status'] = "Not Yet Accepted";
                 else if ($item['status'] == 1) $item['status'] = "Accepted";
                 else if ($item['status'] == 2) $item['status'] = "Unpaid";
-                else if ($item['status'] == 3) $item['status'] = "Paid";
+                else if ($item['status'] == 3) $item['status'] = "Paid Unconfirmed";
+                else if ($item['status'] == 4) $item['status'] = "Paid Confirmed";
                 echo $item['status'];
                 ?>
               </td>

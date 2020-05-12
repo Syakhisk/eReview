@@ -32,10 +32,11 @@
           <tr>
             <th>No</th>
             <th>Title</th>
+            <th>Page(s) Count</th>
             <th>Keyword(s)</th>
             <th>Author(s)</th>
+            <th>Assigned by Editor</th>
             <th>Deadline</th>
-            <th>Status</th>
             <th>Action</th>
           </tr>
           <?php $i = 1;
@@ -43,10 +44,11 @@
             <tr>
               <td><?= $i++; ?></td>
               <td><?= $item['judul']; ?></td>
+              <td><?= $item['jumlah_hal']; ?></td>
               <td><?= $item['keywords']; ?></td>
               <td><?= $item['authors']; ?></td>
+              <td><?= $item['nama_editor']; ?></td>
               <td style="color: red"><?= $item['tgl_deadline']; ?></td>
-              <td><strong>in progress..</strong></td>
               <td style="display:flex">
                 <a href="downloadtask/<?= base64_encode($item['id_assignment']); ?>" class="btn btn-info" style="margin-right: 10px">Download</a>
                 <a href="submitreview/<?= $item['id_assignment']; ?>" class="btn btn-info">Submit</a>

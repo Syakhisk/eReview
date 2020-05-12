@@ -32,7 +32,9 @@
           <tr>
             <th>No</th>
             <th>Title</th>
+            <th>Page(s) Count</th>
             <th>Keyword(s)</th>
+            <th>Assigned by Editor</th>
             <th>Status</th>
           </tr>
           <?php $i = 1;
@@ -40,13 +42,16 @@
             <tr>
               <td><?= $i++; ?></td>
               <td><?= $item['judul']; ?></td>
+              <td><?= $item['jumlah_hal']; ?></td>
               <td><?= $item['keywords']; ?></td>
+              <td><?= $item['nama_editor']; ?></td>
               <td style="display:flex">
               <?php
                 if ($item['status'] == 0) $item['status'] = "Not Yet Accepted";
                 else if ($item['status'] == 1) $item['status'] = "Accepted";
                 else if ($item['status'] == 2) $item['status'] = "Unpaid";
-                else if ($item['status'] == 3) $item['status'] = "Paid";
+                else if ($item['status'] == 3) $item['status'] = "Paid Unconfirmed";
+                else if ($item['status'] == 4) $item['status'] = "Paid Confirmed";
                 ?>
                 <strong><?= $item['status']; ?></strong>
               </td>

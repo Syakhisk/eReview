@@ -32,13 +32,17 @@
                     } ?>"><a href="<?= base_url('editorctl/commitpayment/3') ?>">Awating Makelaar Confirmation</a></li>
         <li class="<?php if ($this->uri->segment(3) == "4") {
                       echo "active";
-                    } ?>"><a href="<?= base_url('editorctl/commitpayment/4') ?>">Paid</a></li>
+                    } ?>"><a href="<?= base_url('editorctl/commitpayment/4') ?>">Paid & Confirmed</a></li>
       </ul>
       <div class="row">
         <div class="span6">
           <style>
             tr>td:first-child {
               width: 10px
+            }
+            a+a{
+              color: green;
+              font-weight: bold;
             }
           </style>
           <table class="table table-hover table-striped">
@@ -61,10 +65,12 @@
                 <td>
                   <a href="<?= base64_encode($item['id_assignment']) ?>">
                     <?php
+                    $link = base64_encode($item['review_location']);
                     if ($item['status'] == 0) $item['status'] = "Not Yet Accepted";
                     else if ($item['status'] == 1) $item['status'] = "Accepted";
                     else if ($item['status'] == 2) $item['status'] = "Unpaid";
-                    else if ($item['status'] == 3) $item['status'] = "Paid";
+                    else if ($item['status'] == 3) $item['status'] = "Paid Unconfirmed";
+                    else if ($item['status'] == 4) $item['status'] = "Paid Confirmed <a href='" . base_url('editorctl/downloadreview/'.$link) . "'>Download</a>";
                     echo $item['status'];
                     ?>
                   </a>

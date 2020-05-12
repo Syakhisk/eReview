@@ -83,26 +83,27 @@ class Account extends CI_Model
     {
         //id editor, reviewer, makelaar
         if ($id_grup == 1) {
-            $q = "SELECT e.id_editor FROM member m 
+            $q = "SELECT e.id_editor FROM users u 
                 INNER JOIN editor e
-                ON m.id_user
-                WHERE m.id_user = $id_user;";
+                ON u.id_user = e.id_user
+                WHERE u.id_user = $id_user;";
             $res = $this->db->query($q);
             return $res->row()->id_editor;
 
         } else if ($id_grup == 2) {
-            $q = "SELECT r.id_reviewer FROM member m 
+            $q = "SELECT r.id_reviewer FROM users u 
                 INNER JOIN reviewer r
-                ON m.id_user
-                WHERE m.id_user = $id_user;";
+                ON u.id_user = r.id_user
+                WHERE u.id_user = $id_user;";
+
             $res = $this->db->query($q);
             return $res->row()->id_reviewer;
             
         } else if ($id_grup == 3) {
-            $q = "SELECT mak.id_makelaar FROM member m 
+            $q = "SELECT mak.id_makelaar FROM users u 
                 INNER JOIN makelaar mak
-                ON m.id_user
-                WHERE m.id_user = $id_user;";
+                ON u.id_user = mak.id_user
+                WHERE u.id_user = $id_user;";
             $res = $this->db->query($q);
             return $res->row()->id_makelaar;
         }

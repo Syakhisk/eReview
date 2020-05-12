@@ -32,8 +32,10 @@
           <tr>
             <th>No</th>
             <th>Title</th>
+            <th>Page(s) Count</th>
             <th>Keyword(s)</th>
-            <th>Filename</th>
+            <th>Author(s)</th>
+            <th>Assigned by Editor</th>
             <th>Action</th>
           </tr>
           <?php $i = 1;
@@ -41,8 +43,10 @@
             <tr>
               <td><?= $i++; ?></td>
               <td><?= $item['judul']; ?></td>
+              <td><?= $item['jumlah_hal']; ?></td>
               <td><?= $item['keywords']; ?></td>
-              <td><?= $item['filelocation']; ?></td>
+              <td><?= $item['authors']; ?></td>
+              <td><?= $item['nama_editor']; ?></td>
               <td style="display:flex">
                 <a href="accepttask/<?= $item['id_assignment']; ?>" class="btn btn-success" style="margin-right: 10px">Accept</a>
                 <a href="rejecttask/<?= $item['id_assignment']; ?>" class="btn btn-danger">Reject</a>

@@ -32,18 +32,18 @@
           <tr>
             <th>No</th>
             <th>Title</th>
+            <th>Page(s) Count</th>
             <th>Keyword(s)</th>
-            <th>Action</th>
+            <th>Assigned by Editor</th>
           </tr>
           <?php $i = 1;
           foreach ($assignment as $item) : ?>
             <tr>
               <td><?= $i++; ?></td>
               <td><?= $item['judul']; ?></td>
+              <td><?= $item['jumlah_hal']; ?></td>
               <td><?= $item['keywords']; ?></td>
-              <td style="display:flex">
-              </td>
-              <td></td>
+              <td><?= $item['nama_editor'] ?></td>
             </tr>
           <?php endforeach; ?>
         </table>

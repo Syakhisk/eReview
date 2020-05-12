@@ -166,6 +166,9 @@ class AccountCtl extends CI_Controller
 
 			#masukin array ke session
 			$this->session->set_userdata('logged_in', $sess_array);
+			// $session_data = $this->session->userdata('logged_in');
+			// var_dump($session_data);
+			// return;
 			
 			switch ($users[0]['id_grup']) {
 				case '1':
@@ -208,7 +211,7 @@ class AccountCtl extends CI_Controller
 	public function logout()
 	{
 		$this->session->unset_userdata('logged_in');
-		// session_destroy();
+		session_destroy();
 		redirect('index.php');
 	}
 

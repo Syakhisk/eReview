@@ -19,14 +19,14 @@ class Task extends CI_Model
         return $this->db->insert_id();
     }
 
-    function insertNewTask($id_user = -1, $filename = '')
+    function insertNewTask($id_editor = -1, $filename = '')
     {
         $this->db->set('judul', $this->input->post('judul'));
         $this->db->set('keywords', $this->input->post('katakunci'));
         $this->db->set('authors', $this->input->post('authors'));
         $this->db->set('jumlah_hal', $this->input->post('halaman'));
         $this->db->set('filelocation', $filename);
-        $this->db->set('id_editor', $id_user);
+        $this->db->set('id_editor', $id_editor);
         $this->db->set('date_created', 'NOW()', FALSE);
         $this->db->insert("task");
         return $this->db->insert_id();
@@ -119,7 +119,9 @@ class Task extends CI_Model
     function getAssignedTask($id_reviewer = -1, $status = -1)
     {
         $q = "SELECT a.*, t.* FROM assignment2 a
-        INNER JOIN task t
+        INNER JOIN (SELECT task.*, u1.nama AS nama_editor FROM task 
+                    INNER JOIN editor e ON task.id_editor = e.id_editor
+                    INNER JOIN users u1 ON u1.id_user = e.id_user) t
         ON a.id_task = t.id_task
         INNER JOIN 
             (SELECT u.id_user, u.nama, r.id_reviewer FROM users u 
@@ -164,10 +166,7 @@ class Task extends CI_Model
                     INNER JOIN users u ON u.id_user = r.id_user
                     ) t0
                 ON t0.id_reviewer = a.id_reviewer
-                WHERE sts_assignment = 1 AND t.id_editor = 1;";
-
-        // echo $q;
-        // return;
+                WHERE sts_assignment = 1 AND t.id_editor = $id_editor;";
 
         $res = $this->db->query($q);
 
@@ -187,7 +186,7 @@ class Task extends CI_Model
                     ) t0
                 ON t0.id_reviewer = a.id_reviewer
                 WHERE sts_assignment = 1 
-                AND t.id_editor = 1
+                AND t.id_editor = $id_editor
                 AND status = $status;";
 
         // echo $q;
@@ -206,7 +205,7 @@ class Task extends CI_Model
         if ($logged_in['id_grup'] == 1) {
             //kalo editor
             $id_editor = $logged_in['id_on_grup'];
-        } else if ($logged_in['id_grup' == 3]) {
+        } else if ($logged_in['id_grup'] == 3) {
             //kalo makelaar
             $id_makelaar = $logged_in['id_on_grup'];
         }
@@ -220,7 +219,19 @@ class Task extends CI_Model
             ";
 
             $res = $this->db->query($q);
+
         } else if ($id_makelaar) {
+            $q = "UPDATE assignment2 a 
+            INNER JOIN task t
+            ON a.id_task = t.id_task
+            SET status = $value
+            WHERE a.id_assignment = $id_assignment;
+            ";
+
+            var_dump($q);
+            
+            $res = $this->db->query($q);
+
         }
 
         return;

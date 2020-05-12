@@ -37,7 +37,7 @@ class EditorCtl extends CI_Controller
 		$this->load->model('Task');
 		$session_data = $this->session->userdata('logged_in');
 
-		$tasks = $this->Task->getAllTask($session_data['id_user']);
+		$tasks = $this->Task->getAllTask($session_data['id_on_grup']);
 		$session_data = $this->session->userdata('logged_in');
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
@@ -126,6 +126,7 @@ class EditorCtl extends CI_Controller
 		$config['file_name'] = $new_name;
 
 		$this->load->library('upload', $config);
+
 		if (!$this->upload->do_upload('userfile')) {
 			$error = array('error' => $this->upload->display_errors());
 			$this->load->view('common/header_editor', array("session_data" => $session_data));
@@ -133,9 +134,8 @@ class EditorCtl extends CI_Controller
 			$this->load->view('common/footer');
 			return;
 		}
-
 		$data = array('upload_data' => $this->upload->data());
-		$id_task = $this->Task->insertNewTask($session_data['id_user'], $new_name);
+		$id_task = $this->Task->insertNewTask($session_data['id_on_grup'], $new_name);
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('editor/add_task_success', array('error' => ""));
@@ -150,7 +150,7 @@ class EditorCtl extends CI_Controller
 		$this->load->model('Reviewer');
 
 		// $tasks = $this->Task->getAllTask($session_data['id_user']);
-		$tasks = $this->Task->getAllTask($session_data['id_user']);
+		$tasks = $this->Task->getAllTask($session_data['id_on_grup']);
 		$reviewers = $this->Reviewer->getAllReviewers();
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
@@ -178,7 +178,7 @@ class EditorCtl extends CI_Controller
 
 		// get task
 		// $tasks = $this->Task->getAllTask($session_data['id_user']);
-		$tasks = $this->Task->getAllTask($session_data['id_user']);
+		$tasks = $this->Task->getAllTask($session_data['id_on_grup']);
 		$reviewers = $this->Reviewer->getAllReviewers();
 
 		$res = $this->form_validation->run();
@@ -376,9 +376,24 @@ class EditorCtl extends CI_Controller
 
 		$judul = $assignment[0]['judul'];
 		$reviewer = $assignment[0]['nama'];
-		
+
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('editor/commit_payment_success', array('judul' => $judul, 'reviewer' => $reviewer));
 		$this->load->view('common/footer');
+	}
+
+	public function downloadReview($review_location)
+	{
+		$this->load->helper('download');
+		$this->load->model('Task');
+		$this->load->model('Reviewer');
+
+		$session_data = $this->session->userdata('logged_in');
+
+		$review_location = base64_decode($this->uri->segment(3));
+		// echo $review_location;
+
+		force_download('../../ereview/berkas-review/' . $review_location, NULL);
+		// force_download('../../ereview/berkas-review/test.txt', NULL);
 	}
 }

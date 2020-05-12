@@ -74,8 +74,12 @@ class ReviewerCtl extends CI_Controller
 		// last argument itu buat nentuin yang completed
 		$assignment = $this->Task->getAssignedTask($session_data['id_on_grup'], 2);
 		$assignmentPaid = $this->Task->getAssignedTask($session_data['id_on_grup'], 3);
+		$assignmentConfirmed = $this->Task->getAssignedTask($session_data['id_on_grup'], 4);
 
 		foreach ($assignmentPaid as $item) {
+			array_push($assignment, $item);
+		}
+		foreach ($assignmentConfirmed as $item) {
 			array_push($assignment, $item);
 		}
 
@@ -176,7 +180,7 @@ class ReviewerCtl extends CI_Controller
 		$task = $this->Task->getTheTask($assignment[0]['id_task']);
 
 		$this->load->view('common/header_reviewer', array("session_data" => $session_data));
-		$this->load->view('reviewer/submit_review', array('error' => "", 'task' => $task, 'id_assignment' => $id_assignment));
+		$this->load->view('reviewer/submit_review', array('error' => [], 'task' => $task, 'id_assignment' => $id_assignment));
 		$this->load->view('common/footer');
 	}
 
@@ -202,15 +206,15 @@ class ReviewerCtl extends CI_Controller
 		$config['allowed_types']        = 'docx|doc|pdf';
 		$config['max_size']             = 10000;
 
-		$new_name = str_replace(' ', '_', time() . '_' . $session_data['nama'] . '_' . $task[0]['judul']);
+		$new_name = str_replace(' ', '_', time() . '_' . $session_data['nama'] . '_' . $task[0]['judul'] .'.' .pathinfo($_FILES["userfile"]["name"])['extension']);
 		$config['file_name'] = $new_name;
 
 		$this->load->library('upload', $config);
 
-		//gagap upload
+		//gagal upload
 		if (!$this->upload->do_upload('userfile')) {
-			$error = $this->upload->display_errors();
-
+			$error = array('error' => $this->upload->display_errors());
+			
 			$this->load->view('common/header_reviewer', array("session_data" => $session_data));
 			$this->load->view('reviewer/submit_review', array('error' => $error, 'task' => $task, 'id_assignment' => $id_assignment));
 			$this->load->view('common/footer');
@@ -219,9 +223,8 @@ class ReviewerCtl extends CI_Controller
 
 		$data = array('upload_data' => $this->upload->data());
 
-		$this->session->set_userdata('review_location', $new_name);
-		// echo "hasil loc: ".$this->session->userdata('review_location');
-		// return;
+		$this->session->set_userdata('review_location', $this->upload->data('file_name'));
+
 		#-- update assignment status
 		$submit_return = $this->Reviewer->updateThisAssignment($id_assignment, 2);
 		if ($submit_return == -1) {
