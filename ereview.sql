@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 13, 2020 at 03:13 AM
+-- Generation Time: May 13, 2020 at 06:04 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -36,14 +36,7 @@ CREATE TABLE IF NOT EXISTS `asdasd` (
   `bukti` int(128) NOT NULL,
   `pwd` varchar(128) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `asdasd`
---
-
-INSERT INTO `asdasd` (`id_user`, `nama`, `amount`, `bukti`, `pwd`) VALUES
-(16, 'Coba Update', 42069, 12312, 'asdasd');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -84,32 +77,16 @@ CREATE TABLE IF NOT EXISTS `assignment2` (
   `date_updated` timestamp NULL DEFAULT current_timestamp(),
   `sts_assignment` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_assignment`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `assignment2`
 --
 
 INSERT INTO `assignment2` (`id_assignment`, `id_task`, `id_reviewer`, `status`, `review_location`, `tgl_assignment`, `tgl_deadline`, `date_created`, `date_updated`, `sts_assignment`) VALUES
-(1, 1, 1, 3, '1589274135_sakis_Reading_strategies_and_Reading_for_detail.pdf', '2020-05-10', '2020-05-13', '2020-05-09 17:01:47', '2020-05-09 17:01:47', 1),
-(2, 1, 2, 0, NULL, NULL, NULL, '2020-05-09 17:01:47', '2020-05-09 17:01:47', 1),
-(3, 1, 3, 0, NULL, NULL, NULL, '2020-05-09 17:01:47', '2020-05-09 17:01:47', 1),
-(4, 1, 4, 0, NULL, NULL, NULL, '2020-05-09 17:01:47', '2020-05-09 17:01:47', 1),
-(5, 1, 5, 3, '1589284475_Mr__Reviewer_Reading_strategies_and_Reading_for_detail.docx', '2020-05-12', '2020-05-15', '2020-05-09 17:01:47', '2020-05-09 17:01:47', 1),
-(6, 2, 1, 3, NULL, NULL, NULL, '2020-05-09 17:02:01', '2020-05-09 17:02:01', 0),
-(7, 2, 2, 0, NULL, NULL, NULL, '2020-05-09 17:02:01', '2020-05-09 17:02:01', 1),
-(8, 2, 3, 0, NULL, NULL, NULL, '2020-05-09 17:02:01', '2020-05-09 17:02:01', 1),
-(9, 2, 4, 0, NULL, NULL, NULL, '2020-05-09 17:02:01', '2020-05-09 17:02:01', 1),
-(10, 2, 5, -1, NULL, NULL, NULL, '2020-05-09 17:02:01', '2020-05-09 17:02:01', 1),
-(11, 5, 1, 3, '1589274198_sakis_Organization_Pattern_Writing.pdf', '2020-05-11', '2020-05-21', '2020-05-09 22:23:08', '2020-05-09 22:23:08', 1),
-(12, 4, 1, 2, '1589276737_sakis_Hubungan_Modul_dengan_Moduler.pdf', '2020-05-10', '2020-05-13', '2020-05-09 22:24:21', '2020-05-09 22:24:21', 1),
-(13, 3, 1, 0, NULL, NULL, NULL, '2020-05-09 22:25:11', '2020-05-09 22:25:11', 1),
-(14, 6, 5, 2, '1589284554_Mr__Reviewer_Relasi_a_dengan_b.docx', '2020-05-12', '2020-05-25', '2020-05-12 10:30:36', '2020-05-12 10:30:36', 1),
-(15, 7, 5, 0, NULL, NULL, NULL, '2020-05-12 11:08:17', '2020-05-12 11:08:17', 1),
-(16, 8, 5, 2, '1589286920_Mr__Reviewer_Pointer_dan_Struct.docx', '2020-05-12', '2020-05-27', '2020-05-12 12:34:36', '2020-05-12 12:34:36', 1),
-(17, 5, 5, 0, NULL, NULL, NULL, '2020-05-12 14:19:08', '2020-05-12 14:19:08', 1),
-(18, 5, 6, 2, '1589293765_Mr__Google_Organization_Pattern_Writing.docx', '2020-05-12', '2020-05-22', '2020-05-12 14:19:08', '2020-05-12 14:19:08', 1),
-(19, 4, 6, 3, '1589312213_Mr__Google_Hubungan_Modul_dengan_Moduler.pdf', '2020-05-13', '2020-05-16', '2020-05-12 18:48:18', '2020-05-13 02:59:45', 1);
+(1, 1, 2, 4, '1589387690_Neils_Bohr_Reading_Strategies_for_TOEFL_Test.pdf', '2020-05-13', '2020-05-23', '2020-05-13 16:33:26', '2020-05-13 16:40:29', 1),
+(2, 3, 2, 4, '1589388244_Neils_Bohr_Pointer_dan_Struct.pdf', '2020-05-13', '2020-05-23', '2020-05-13 16:43:47', '2020-05-13 16:44:21', 1),
+(3, 7, 1, 3, '1589388839_Sakisre_Lorem_Media:_Pemicu_Prasangka_terhadap_Perempuan_Bercadar.pdf', '2020-05-13', '2020-06-01', '2020-05-13 16:53:26', '2020-05-13 16:56:20', 1);
 
 -- --------------------------------------------------------
 
@@ -128,7 +105,18 @@ CREATE TABLE IF NOT EXISTS `dana` (
   `date_updated` timestamp NULL DEFAULT NULL,
   `sts_dana` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_dana`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `dana`
+--
+
+INSERT INTO `dana` (`id_dana`, `tipe`, `id_user`, `amount`, `bukti`, `date_created`, `date_updated`, `sts_dana`) VALUES
+(1, 0, 2, 2000000, 'buktipayment_1589387905_Yanto_Xiaoqing.png', '2020-05-13 16:38:25', NULL, 1),
+(2, 0, 2, 2000000, 'buktipayment_1589387982_Yanto_Xiaoqing.png', '2020-05-13 16:39:42', NULL, -1),
+(3, 0, 2, 2000000, 'buktipayment_1589387984_Yanto_Xiaoqing.png', '2020-05-13 16:39:44', NULL, -1),
+(4, 0, 2, 500000, 'buktipayment_1589388305_Yanto_Xiaoqing.png', '2020-05-13 16:45:05', NULL, 1),
+(5, 0, 4, 2500000, 'buktipayment_1589388956_J_J__Thompson.png', '2020-05-13 16:55:56', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -152,8 +140,8 @@ CREATE TABLE IF NOT EXISTS `editor` (
 --
 
 INSERT INTO `editor` (`id_editor`, `id_user`, `balance`, `date_created`, `date_updated`, `sts_editor`) VALUES
-(1, 1, 200000, '2020-05-09 11:51:11', '2020-05-09 11:51:11', 1),
-(2, 8, 0, '2020-05-12 10:22:59', '2020-05-12 10:22:59', 1);
+(1, 2, 500000, '2020-05-13 15:32:25', '2020-05-13 15:32:25', 1),
+(2, 4, 600000, '2020-05-13 16:03:31', '2020-05-13 16:03:31', 1);
 
 -- --------------------------------------------------------
 
@@ -201,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `makelaar` (
 --
 
 INSERT INTO `makelaar` (`id_makelaar`, `id_user`, `date_created`, `date_updated`, `sts_makelaar`) VALUES
-(1, 7, '2020-05-12 06:40:34', NULL, 1);
+(1, 1, '2020-05-13 15:30:54', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -218,23 +206,18 @@ CREATE TABLE IF NOT EXISTS `member` (
   `date_updated` timestamp NULL DEFAULT current_timestamp(),
   `sts_member` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_member`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `member`
 --
 
 INSERT INTO `member` (`id_member`, `id_grup`, `id_user`, `date_created`, `date_updated`, `sts_member`) VALUES
-(1, 1, 1, '2020-05-09 11:51:11', '2020-05-09 11:51:11', 1),
-(2, 2, 2, '2020-05-09 11:53:14', '2020-05-09 11:53:14', 1),
-(3, 2, 3, '2020-05-09 11:53:48', '2020-05-09 11:53:48', 1),
-(4, 2, 4, '2020-05-09 11:54:13', '2020-05-09 11:54:13', 1),
-(5, 2, 5, '2020-05-09 11:54:43', '2020-05-09 11:54:43', 1),
-(6, 2, 6, '2020-05-09 11:55:39', '2020-05-09 11:55:39', 1),
-(7, 3, 7, '2020-05-12 06:40:15', '2020-05-12 06:40:15', 1),
-(8, 1, 8, '2020-05-12 10:22:59', '2020-05-12 10:22:59', 1),
-(9, 2, 9, '2020-05-12 13:53:12', '2020-05-12 13:53:12', 1),
-(10, 2, 10, '2020-05-13 02:17:00', '2020-05-13 02:17:00', 1);
+(1, 3, 1, '2020-05-13 15:31:03', '2020-05-13 15:31:03', 1),
+(2, 1, 2, '2020-05-13 15:32:25', '2020-05-13 15:32:25', 1),
+(3, 2, 3, '2020-05-13 15:38:49', '2020-05-13 15:38:49', 1),
+(4, 1, 4, '2020-05-13 16:03:31', '2020-05-13 16:03:31', 1),
+(5, 2, 5, '2020-05-13 16:06:04', '2020-05-13 16:06:04', 1);
 
 -- --------------------------------------------------------
 
@@ -246,22 +229,24 @@ DROP TABLE IF EXISTS `pembayaran`;
 CREATE TABLE IF NOT EXISTS `pembayaran` (
   `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT,
   `id_assignment` int(11) NOT NULL,
+  `id_editor` int(11) NOT NULL,
+  `id_reviewer` int(11) NOT NULL,
   `amount` float NOT NULL,
   `bukti` text DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_updated` timestamp NULL DEFAULT NULL,
   `sts_pembayaran` tinytext NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_pembayaran`)
-) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pembayaran`
 --
 
-INSERT INTO `pembayaran` (`id_pembayaran`, `id_assignment`, `amount`, `bukti`, `date_created`, `date_updated`, `sts_pembayaran`) VALUES
-(21, 5, 300000, NULL, '2020-05-13 01:52:45', NULL, '0'),
-(65, 19, 300000, NULL, '2020-05-13 02:44:46', NULL, '0'),
-(93, 19, 300000, NULL, '2020-05-13 02:59:45', NULL, '0');
+INSERT INTO `pembayaran` (`id_pembayaran`, `id_assignment`, `id_editor`, `id_reviewer`, `amount`, `bukti`, `date_created`, `date_updated`, `sts_pembayaran`) VALUES
+(1, 1, 1, 2, 1000000, NULL, '2020-05-13 16:40:29', NULL, '1'),
+(2, 2, 1, 2, 1000000, NULL, '2020-05-13 16:44:21', NULL, '1'),
+(3, 3, 2, 1, 1900000, NULL, '2020-05-13 16:56:20', NULL, '1');
 
 -- --------------------------------------------------------
 
@@ -278,20 +263,15 @@ CREATE TABLE IF NOT EXISTS `reviewer` (
   `date_updated` timestamp NULL DEFAULT NULL,
   `sts_reviewer` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_reviewer`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `reviewer`
 --
 
 INSERT INTO `reviewer` (`id_reviewer`, `id_user`, `balance`, `date_created`, `date_updated`, `sts_reviewer`) VALUES
-(1, 2, 0, '2020-05-09 11:53:14', '2020-05-09 11:53:14', 1),
-(2, 3, 0, '2020-05-09 11:53:48', '2020-05-09 11:53:48', 1),
-(3, 4, 0, '2020-05-09 11:54:13', '2020-05-09 11:54:13', 1),
-(4, 5, 0, '2020-05-09 11:54:43', '2020-05-09 11:54:43', 1),
-(5, 6, 300000, '2020-05-09 11:55:39', '2020-05-09 11:55:39', 1),
-(6, 9, 1200000, '2020-05-12 13:53:12', '2020-05-12 13:53:12', 1),
-(7, 10, 0, '2020-05-13 02:17:00', '2020-05-13 02:17:00', 1);
+(1, 3, 200000, '2020-05-13 15:38:49', '2020-05-13 15:38:49', 1),
+(2, 5, 2000000, '2020-05-13 16:06:04', '2020-05-13 16:06:04', 1);
 
 -- --------------------------------------------------------
 
@@ -312,21 +292,20 @@ CREATE TABLE IF NOT EXISTS `task` (
   `date_updated` timestamp NULL DEFAULT NULL,
   `sts_task` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_task`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `task`
 --
 
 INSERT INTO `task` (`id_task`, `judul`, `authors`, `jumlah_hal`, `keywords`, `filelocation`, `id_editor`, `date_created`, `date_updated`, `sts_task`) VALUES
-(1, 'Reading strategies and Reading for detail', 'Author 1, Author 2, Author 3', 3, 'reading, strategies, details', '1589025438_Reading_strategies_and_Reading_for_detail(1).docx', 1, '2020-05-09 11:57:18', NULL, 1),
-(2, 'Analisis Jadwal EAS', 'Author 1, Author 2, Author 3', 3, 'analisis, jadwal, eas', '1589025472_Jadwal_EAS_UPMB_Semester_Genap_2019_2020.pdf', 1, '2020-05-09 11:57:52', NULL, 1),
-(3, 'Text Pattern Organization', 'Author 1, author 2, author 3', 3, 'text, patern', '1589025489_Text_Pattern_Organization.docx', 1, '2020-05-09 11:58:09', NULL, 1),
-(4, 'Hubungan Modul dengan Moduler', 'sakis', 3, 'Hubungan, Modul, Moduler', '1589025558_Modul3_Syakhisk_Al-Azmi_0003.pdf', 1, '2020-05-09 11:59:18', NULL, 1),
-(5, 'Organization Pattern Writing', 'Yanto Lorem, Rahmad Ipsum', 10, 'Organization, Pattern', '1589059829_OrganizationalPatternsinAcademicWriting.pdf', 1, '2020-05-09 21:30:29', NULL, 1),
-(6, 'Relasi a dengan b', 'Auth 1, auth 5, auth 6', 13, 'Relasi, a, b', '1589279415_Syakhisk_Al-Azmi_05311940000003_053_1.3.2.pdf', 2, '2020-05-12 10:30:15', NULL, 1),
-(7, 'Kursus Persiapan untuk Toefl Test', 'Longman, Phillips', 25, 'Kursus, Persiapan, Toefl', '1589281544_Syakhisk_Al-Azmi_05311940000003_053_2.3.1.pdf', 2, '2020-05-12 11:05:44', NULL, 1),
-(8, 'Pointer dan Struct', 'Aiden, Bellatrix', 15, 'Pointer, Struct', '1589286859_Pointer_Struct_ShafiraFirdausi_053_040.pdf', 2, '2020-05-12 12:34:19', NULL, 1);
+(1, 'Reading Strategies for TOEFL Test', 'Longman, Phillips', 10, 'Reading, Strategies, TOEFL', '1589386196_article.pdf', 1, '2020-05-13 16:09:56', NULL, 1),
+(2, 'Relasi A dengan B', 'Auth 1, auth 5, auth 6', 15, 'Relasi, a, b', '1589386424_article.pdf', 1, '2020-05-13 16:13:44', NULL, 1),
+(3, 'Pointer dan Struct', 'Aiden, Bellatrix', 10, 'Pointer, Struct', '1589386464_article.pdf', 1, '2020-05-13 16:14:24', NULL, 1),
+(4, 'Pemanfaatan Informasi Path Coverage terhadap Efektivitas Testing', 'Limputra Qiaohui Antonio, Xiaoqing Jetta, Oost', 15, 'Path Coverage, Testing', '1589386749_article.pdf', 1, '2020-05-13 16:19:09', NULL, 1),
+(5, 'Aplikasi Face Recognition dalam Pencarian Muka Secara Spesifik', 'Jetta Oost, Rose Sihombing, Bethany Sitindaon', 12, 'Face Recognition, Muka', '1589386810_article.pdf', 1, '2020-05-13 16:20:10', NULL, 1),
+(6, 'Tingkat Kesuburan Perairan Teluk Banten Berdasarkan Nilai Parameter Kimia', 'Elisha, Sidauruk Asa, Tumanggor', 10, 'Kesuburan, Perairan', '1589386879_article.pdf', 2, '2020-05-13 16:21:19', NULL, 1),
+(7, 'Media: Pemicu Prasangka terhadap Perempuan Bercadar', 'Iwan Raja Salim', 19, 'Pemicu, Media', '1589386911_article.pdf', 2, '2020-05-13 16:21:51', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -347,23 +326,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_updated` timestamp NULL DEFAULT NULL,
   `sts_user` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_user`, `username`, `pwd`, `nama`, `email`, `no_rek`, `foto_user`, `date_created`, `date_updated`, `sts_user`) VALUES
-(1, 'yanto', '7849816e52e7d1596c51f3e36f21c498', 'Yanto Lorem', 'yanto@yanto.com', '5174840525', '1589025071_yanto.png', '2020-05-09 11:51:11', NULL, 1),
-(2, 'sakis', '18206cdcf230e9340e625bfaaede8b14', 'sakis', 'sakis@gmail.com', '3387846219', '1589025194_yanto.png', '2020-05-09 11:53:14', NULL, 1),
-(3, 'rahmad', '6878c309268c7bc852fb0f81c6419904', 'rahmad', 'rahmad@gmail.com', '3137905162', '1589025228_yanto.png', '2020-05-09 11:53:48', NULL, 1),
-(4, 'yulianto', '7b5adea9f129b861e3291e851a9e15e9', 'yulianto', 'yulianto@yulianto.com', '5812786306', '1589025253_yanto.png', '2020-05-09 11:54:13', NULL, 1),
-(5, 'felipe', '7e04da88cbb8cc933c7b89fbfe121cca', 'felipe', 'felipe@felipe.com', '2062924740', '1589025283_yanto.png', '2020-05-09 11:54:43', NULL, 1),
-(6, 'mrreviewer', '21f90ab4834f227b6d6f0fe8e4fa044b', 'Mr. Reviewer', 'mrreviewer@mrreviewer.com', '2570738858', '1589025339_yanto.png', '2020-05-09 11:55:39', NULL, 1),
-(7, 'mrmakelaar', 'c9d9b98be6cb176723739f15e0c792ec', 'Mr. Makelaar', 'mrmakelaar@makelaar.com', '8540717249', '1589025071_yanto.png', '2020-05-12 06:39:56', NULL, 1),
-(8, 'syakhisk', 'b46613f54efeef2975c35b17f3e6a0da', 'Syakhisk Syari Al-Azmi', 'syakhisk.witwicky@gmail.com', '2201601580', '1589278979_yanto_-_Copy.png', '2020-05-12 10:22:59', NULL, 1),
-(9, 'google', 'c822c1b63853ed273b89687ac505f9fa', 'Mr. Google', 'google@google.com', '1492064091', 'google_profilepicture.png', '2020-05-12 13:53:12', NULL, 1),
-(10, 'ujicoba', '10cf4ce1ce9dcd8f3f7c2c37974d8b84', 'Uji Coba 1', 'uji@coba.com', '6026669999', 'ujicoba_profilepicture.png', '2020-05-13 02:17:00', NULL, 1);
+(1, 'makelaar', 'e8a97f615cc19994bb9c7a847a4a7848', 'Mr. Makelaar', 'makelaar@makelaar.com', '654789284', NULL, '2020-05-13 15:30:41', NULL, 1),
+(2, 'yanto', '7849816e52e7d1596c51f3e36f21c498', 'Yanto Xiaoqing', 'yanto@yanto.com', '6547892548', 'yanto_profilepicture', '2020-05-13 15:32:25', NULL, 1),
+(3, 'sakis', '18206cdcf230e9340e625bfaaede8b14', 'Sakisre Lorem', 'sakis@gmail.com', '6548972548', '1589384329_fotosakis.png', '2020-05-13 15:38:49', NULL, 1),
+(4, 'thompson', '3a7e1b81ca8fbc0e160315723dc50901', 'J.J. Thompson', 'thompson@r.com', '6547898587', '1589385811_fotosakis.png', '2020-05-13 16:03:31', NULL, 1),
+(5, 'bohr', '989678f65909410cac426753fe618e16', 'Neils Bohr', 'bohr@r.com', '6549878789', '1589385964_profpic.png', '2020-05-13 16:06:04', NULL, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
