@@ -9,73 +9,85 @@ class MakelaarCtl extends CI_Controller
 		navbartemp();
 
 		$session_data = $this->session->userdata('logged_in');
-		
+
 		if (!$session_data) {
 			redirect('welcome');
 		}
 		if ($session_data['nama_grup'] != 'makelaar') {
 			redirect('AccountCtl/redirecting');
 		}
-
 	}
 
 	public function index()
 	{
 		$session_data = $this->session->userdata('logged_in');
-		
+
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('common/topmenu');
 		$this->load->view('common/content');
 		$this->load->view('common/footer');
 	}
 
-	public function newTask(){
+	public function newTask()
+	{
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->model('Task');
 
 		$tasks = $this->Task->getAllTaskMakelaar();
-		
+
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('makelaar/view_new_task', array('tasks' => $tasks));
 		$this->load->view('common/footer');
-		
 	}
 
-	public function onGoingTask(){
+	public function onGoingTask()
+	{
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->model('Task');
 
-		$tasks = $this->Task->getAssignedTaskMakelaar(0);
-		
+		$tasks = [];
+
+		foreach ($this->Task->getAssignedTaskMakelaar(2) as $item) {
+			array_push($tasks, $item);
+		}
+		foreach ($this->Task->getAssignedTaskMakelaar(3) as $item) {
+			array_push($tasks, $item);
+		}
+		foreach ($this->Task->getAssignedTaskMakelaar(0) as $item) {
+			array_push($tasks, $item);
+		}
+		foreach ($this->Task->getAssignedTaskMakelaar(1) as $item) {
+			array_push($tasks, $item);
+		}
+
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('makelaar/view_ongoing_task', array('tasks' => $tasks));
 		$this->load->view('common/footer');
-		
 	}
 
-	public function awaitingConfirmationTask(){
+	public function awaitingConfirmationTask()
+	{
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->model('Task');
 
 		$tasks = $this->Task->getAssignedTaskMakelaar(3);
-		
+
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('makelaar/view_awaiting_task', array('tasks' => $tasks));
 		$this->load->view('common/footer');
-		
 	}
 
-	public function completedTask(){
+	public function completedTask()
+	{
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->model('Task');
 
 		$tasks = $this->Task->getAssignedTaskMakelaar(4);
 
-		
+
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('makelaar/view_completed_task', array('tasks' => $tasks));
 		$this->load->view('common/footer');
-		
 	}
 
 	public function downloadTask($id_assignment)
@@ -105,13 +117,14 @@ class MakelaarCtl extends CI_Controller
 		// force_download('../../ereview/berkas-review/test.txt', NULL);
 	}
 
-	public function confirmTaskCompletion($id_assignment = -1){
+	public function confirmTaskCompletion($id_assignment = -1)
+	{
 		$this->load->model('Task');
 		$this->load->model('Reviewer');
 
 		$session_data = $this->session->userdata('logged_in');
 
-		
+
 		$id_assignment = base64_decode($this->uri->segment(3));
 		// var_dump($id_assignment);
 		// return;
@@ -120,13 +133,14 @@ class MakelaarCtl extends CI_Controller
 		return;
 	}
 
-	public function rejectTaskCompletion($id_assignment = -1){
+	public function rejectTaskCompletion($id_assignment = -1)
+	{
 		$this->load->model('Task');
 		$this->load->model('Reviewer');
 
 		$session_data = $this->session->userdata('logged_in');
 
-		
+
 		$id_assignment = base64_decode($this->uri->segment(3));
 		// var_dump($id_assignment);
 		// return;

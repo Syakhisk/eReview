@@ -20,7 +20,7 @@
       .card {
         background-color: rgba(20, 21, 22, 0.1);
         padding: 1rem;
-        border-radius: 10px;
+        border-radius: 5px;
         margin-bottom: 3rem;
       }
 
@@ -39,26 +39,23 @@
     <?php endif ?>
 
     <div align='center' class="card">
-      <!-- <form action="<?php //echo base_url('reviewerctl/submittingreview'); 
-                          ?>" method="post" enctype="multipart/form-data"> -->
-      <?= form_open_multipart(base_url('reviewerctl/committingPayment/')); ?>
+      <?= form_open_multipart(base_url('editorctl/committingPayment/'.$selected_id)); ?>
 
       <table>
         <tr>
-        <td>Assignment</td>
-        <td>:</td>
-        <td>
-          <?php
-          $mapped_task[''] = '-Select Task-';
-          if (!$selected_id) {
-            $selected_id = $mapped_task[''];
-          }
-          foreach ($assignments as $task) {
-            $mapped_task[$task['id_assignment']] = $task['judul'];
-          }
-          echo form_dropdown('assignment', $mapped_task, $selected_id);
-          ?>
-        </td>
+          <td>Assignment</td>
+          <td>:</td>
+          <td>
+            <?php
+            $flag = true;
+
+            $mapped_task[''] = '-Select Task-';
+            foreach ($assignments as $task) {
+              $mapped_task[$task['id_assignment']] = $task['judul'];
+            }
+            echo form_dropdown('assignment', $mapped_task, $selected_id);
+            ?>
+          </td>
         </tr>
 
         <tr>
@@ -81,12 +78,30 @@
           <td>:</td>
           <td><input type="text" name="" value="<?= (!$selected_id ? '' :  number_format(($selected['jumlah_hal'] * 100000), 2, ',', '.')) ?>" readonly></td>
         </tr>
+        <?php
+        if ($selected) {
+          $harga = $selected['jumlah_hal'] * 100000;
+          if ($harga > $balance) { ?>
+            <tr style="text-align: center">
+              <td colspan="3" style="color: red">Insufficient Balance, Please Top Up!</td>
+            </tr>
+        <?php
+            $flag = false;
+          }
+        }
+        ?>
         <tr>
-          <td>Upload Review:</td>
-          <td colspan="2">
+          <td>Your Balance(Rp)</td>
+          <td>:</td>
+          <td><input type="text" name="" value="<?= number_format(($balance), 2, ',', '.') ?>" readonly></td>
+        </tr>
+        <!-- <tr>
+          <td>Payment Receipt</td>
+          <td>:</td>
+          <td>
             <input type="file" name="userfile">
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <td colspan="3">
             <hr>
@@ -94,7 +109,15 @@
         </tr>
         <tr>
           <td colspan="3" style="text-align: center">
-            <input class="btn btn-info" type="submit" value="Commit Payment">
+            <?php if ($flag && $selected_id) : ?>
+              <button class="btn btn-info" type="submit">Commit Payment</button>
+            <?php elseif (!$flag && $selected_id) : ?>
+              <div class="btn btn-danger">Insufficient Balance</div>
+            <?php elseif (!$selected_id) : ?>
+              <div class="btn btn-info" type="submit">Select Task</div>
+            <?php else : ?>
+              <div></div>
+            <?php endif; ?>
           </td>
         </tr>
       </table>
@@ -103,8 +126,8 @@
 
       <script>
         let dropdown = document.getElementsByName("assignment")[0];
-        dropdown.addEventListener("change", function(){
-          window.location.href = "<?= base_url('editorctl/commitpayment2/'); ?>" + dropdown.value;
+        dropdown.addEventListener("change", function() {
+          window.location.href = "<?= base_url('editorctl/commitpayment/'); ?>" + dropdown.value;
         });
       </script>
     </div>

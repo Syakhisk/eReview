@@ -47,11 +47,13 @@
           <!-- top menu -->
           <div class="navigation">
             <nav>
+              <?php $segment = $this->uri->segment(2) ?>
+
               <ul class="nav topnav">
-                <li class="dropdown active">
+                <li class="dropdown <?php if ($segment == "" || $segment == "index") {echo "active";} ?>">
                   <a href="<?= base_url(); ?>">Home</a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown <?php if ($segment == "newtask" || $segment == "ongoingtask" || $segment == "completedtask") {echo "active";} ?>">
                   <a href="#">Task</a>
                   <ul class="dropdown-menu">
                     <li><a href="<?php echo base_url() . 'index.php/makelaarctl/newtask'; ?>">View New Task</a></li>
@@ -59,13 +61,17 @@
                     <li><a href="<?php echo base_url() . 'index.php/makelaarctl/completedtask'; ?>">View Completed Task</a></li>
                   </ul>
                 </li>
-                <li>
-                  <a href="contact.html">Contact</a>
+                <li class="dropdown <?php if ($segment == "topupconfirmation" || $segment == "paymentconfirmation") {echo "active";} ?>">
+                  <a href="">Payment</a>
+                  <ul class="dropdown-menu">
+                    <li><a href="<?php echo base_url() . 'paymentctl/topupconfirmation'; ?> ">Topup Confirmation</a></li>
+                    <li><a href="<?php echo base_url() . 'paymentctl/paymentconfirmation'; ?>">Payment Confirmation</a></li>
+                  </ul>
                 </li>
                 <li class="dropdown">
                   <a href="#"><?= $session_data['nama'] ?> (<?= ucfirst($session_data['nama_grup']); ?>)</a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url() . 'accountctl/changerole'; ?>"><?= ucfirst($session_data['nama_grup']); ?></a></li>
+                    <li><a href=""><?= ucfirst($session_data['nama_grup']) . "(" . $session_data['id_on_grup'] . ") " . "User" . "(" . $session_data['id_user'] . ")"; ?></a></li>
                     <li><a href="<?php echo base_url() . 'accountctl/profile'; ?>">Profile</a></li>
                     <li><a href="<?php echo base_url() . 'accountctl/logout'; ?> ">Logout</a></li>
                   </ul>

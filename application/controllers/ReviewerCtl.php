@@ -167,7 +167,7 @@ class ReviewerCtl extends CI_Controller
 		$this->load->model('Reviewer');
 		$session_data = $this->session->userdata('logged_in');
 
-		$id_assignment = $this->uri->segment(3);
+		$id_assignment = base64_decode($this->uri->segment(3));
 		$assignment = $this->Task->getAssignmentByID($id_assignment);
 
 		//cek udah di acc atau belum

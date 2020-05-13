@@ -16,4 +16,9 @@ class Debug extends CI_Controller
 		$this->load->view('debug');
 		$this->load->view('common/footer');
 	}
+
+	public function test($param = ""){
+		echo "hello";
+		echo $param;
+	}
 }

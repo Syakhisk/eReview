@@ -78,7 +78,7 @@
         <tr>
           <td>Assigned by editor</td>
           <td>:</td>
-          <td><input type="text" name="" value="<?= $task[0]['id_editor'] ?>" readonly></td>
+          <td><input type="text" name="" value="<?= $task[0]['nama'] ?>" readonly></td>
         </tr>
         <tr>
           <td colspan="3">

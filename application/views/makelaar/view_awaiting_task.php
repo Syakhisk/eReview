@@ -28,14 +28,21 @@
           tr>td:first-child {
             width: 10px
           }
-          .btn-success{
-            margin-bottom:10px;
+
+          .btn-success {
+            margin-bottom: 10px;
           }
+
           .btn-danger {
-            padding:5px 18px
+            padding: 5px 18px
           }
-          td{
-            vertical-align:middle;
+
+          td {
+            vertical-align: middle;
+          }
+
+          table {
+            font-size: 13px;
           }
         </style>
         <table class="table table-hover table-striped">

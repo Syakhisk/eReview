@@ -61,9 +61,9 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.html">Contact</a>
+                  <a href="contact.html">Payment</a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown <?php if($this->uri->segment(2)=="profile"){echo "active";}?>">
                   <a href="#"><?= $session_data['nama'] ?> (<?= ucfirst($session_data['nama_grup']); ?>)</a>
                   <ul class="dropdown-menu">
                     <li><a href="<?php echo base_url() . 'accountctl/changerole'; ?>"><?= ucfirst($session_data['nama_grup']); ?></a></li>

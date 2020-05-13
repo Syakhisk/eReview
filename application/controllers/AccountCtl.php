@@ -119,6 +119,8 @@ class AccountCtl extends CI_Controller
 	public function checkingLogin()
 	{
 		$this->load->model('Account');
+		$this->load->model('Payment');
+
 		$judul = 'Register Page';
 		$this->form_validation->set_rules(
 			'username', //form field name
@@ -161,14 +163,17 @@ class AccountCtl extends CI_Controller
 				'id_grup' => $users[0]['id_grup'],
 				'nama_grup' => $users[0]['nama_grup'],
 				'current_grup' => $users[0]['id_user'],
-				'id_on_grup' => $id_current_grup
+				'id_on_grup' => $id_current_grup,
 			);
-
+			
 			#masukin array ke session
 			$this->session->set_userdata('logged_in', $sess_array);
-			// $session_data = $this->session->userdata('logged_in');
-			// var_dump($session_data);
-			// return;
+			$balance = $this->Payment->getBalance();
+			$sess_array['balance'] = $balance;
+			$this->session->set_userdata('logged_in', $sess_array);
+
+			$session_data = $this->session->userdata('logged_in');
+			
 			
 			switch ($users[0]['id_grup']) {
 				case '1':
@@ -275,7 +280,6 @@ class AccountCtl extends CI_Controller
 	}
 
 
-
 	public function profile()
 	{
 		if (!$this->session->userdata('logged_in')) {
@@ -305,6 +309,8 @@ class AccountCtl extends CI_Controller
 	public function updateProfile()
 	{
 		$this->load->model('Account');
+		$this->load->model('Payment');
+
 		$session_data = $this->session->userdata('logged_in');
 		$user = $this->Account->getUser($session_data['id_user']);
 		$roles = $this->Account->getRoles($session_data['id_user']);
@@ -346,6 +352,8 @@ class AccountCtl extends CI_Controller
 		$users2 = $this->Account->setUser($session_data['id_user']);
 
 		$users = $this->Account->getUser($session_data['id_user']);
+		$id_current_grup = $this->Account->getIDOnGroup($users[0]['id_user'], $users[0]['id_grup']);
+		$balance = $this->Payment->getBalance();
 
 		$sess_array = array(
 			'id_user' => $users[0]['id_user'],
@@ -354,9 +362,16 @@ class AccountCtl extends CI_Controller
 			'id_grup' => $users[0]['id_grup'],
 			'nama_grup' => $users[0]['nama_grup'],
 			'current_grup' => $users[0]['id_user'],
+			'id_on_grup' => $id_current_grup,
+			'balance' => $balance
 		);
+
 		$this->session->set_userdata('logged_in', $sess_array);
 		$session_data = $this->session->userdata('logged_in');
+
+		// var_dump($session_data);
+		// return;
+
 		redirect('accountctl/profile');
 	}
 }

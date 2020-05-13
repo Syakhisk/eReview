@@ -66,6 +66,7 @@ class Account extends CI_Model
                             AND t0.sts_user = 1) t1
                         INNER JOIN member t2 ON t1.id_user=t2.id_user AND t2.sts_member = 1
                         INNER JOIN grup t3 ON t2.id_grup=t3.id_grup AND t3.sts_grup = 1";
+
         $res = $this->db->query($q);
         $users = $res->result_array();
 

@@ -51,7 +51,7 @@
               <td style="color: red"><?= $item['tgl_deadline']; ?></td>
               <td style="display:flex">
                 <a href="downloadtask/<?= base64_encode($item['id_assignment']); ?>" class="btn btn-info" style="margin-right: 10px">Download</a>
-                <a href="submitreview/<?= $item['id_assignment']; ?>" class="btn btn-info">Submit</a>
+                <a href="submitreview/<?= base64_encode($item['id_assignment']); ?>" class="btn btn-info">Submit</a>
               </td>
               <td></td>
             </tr>

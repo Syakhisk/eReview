@@ -34,7 +34,12 @@ class Task extends CI_Model
 
     function getTheTask($id_task)
     {
-        $q = "SELECT * FROM task WHERE id_task=" . $id_task;
+        $q = "SELECT t.*, u.nama FROM task t
+                INNER JOIN editor e
+                ON t.id_editor = e.id_editor
+                INNER JOIN users u
+                ON u.id_user= e.id_user
+                WHERE t.id_task = $id_task;";
         $res = $this->db->query($q);
         //mereturn semua isi tabel dengan $id_task
         return $res->result_array();
@@ -140,7 +145,7 @@ class Task extends CI_Model
 
     function getAssignedTaskMakelaar($status = -1)
     {
-        $q = "SELECT a.*, t.*, sq.nama AS nama_editor, sq2.nama AS nama_reviewer FROM assignment2 a
+        $q = "SELECT a.*, t.*,a.date_created AS assigned_date, sq.nama AS nama_editor, sq2.nama AS nama_reviewer FROM assignment2 a
                 INNER JOIN task t
                 ON t.id_task = a.id_task
                 INNER JOIN (SELECT u.nama, e.id_editor FROM editor e INNER JOIN users u ON e.id_user = u.id_user) sq
@@ -149,7 +154,7 @@ class Task extends CI_Model
                 ON a.id_reviewer = sq2.id_reviewer
                 WHERE sts_assignment >= 1
                 AND status = $status";
-
+        
         $res = $this->db->query($q);
         return $res->result_array();
     }
@@ -228,7 +233,7 @@ class Task extends CI_Model
             WHERE a.id_assignment = $id_assignment;
             ";
 
-            var_dump($q);
+            // var_dump($q);
             
             $res = $this->db->query($q);
 
