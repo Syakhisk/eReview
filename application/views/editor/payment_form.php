@@ -114,7 +114,7 @@
             <?php elseif (!$flag && $selected_id) : ?>
               <div class="btn btn-danger">Insufficient Balance</div>
             <?php elseif (!$selected_id) : ?>
-              <div class="btn btn-info" type="submit">Select Task</div>
+              <div class="btn btn-info">Select Task</div>
             <?php else : ?>
               <div></div>
             <?php endif; ?>

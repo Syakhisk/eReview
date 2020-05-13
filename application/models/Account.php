@@ -10,12 +10,13 @@ class Account extends CI_Model
 
         //petik 1 buat command mysql
         //petik 2 buat membedakan command sql dan command php
-        $q = "INSERT INTO users (nama, username, pwd, email, foto_user)
+        $q = "INSERT INTO users (nama, username, pwd, email, no_rek,foto_user)
             VALUES (
                 '" . $this->input->post('nama')     . "',
                 '" . $this->input->post('username') . "',
                 '" . md5($this->input->post('sandi')) . "',
                 '" . $this->input->post('email')    . "',
+                '" . $this->input->post('no_rek')    . "',
                 '" . $this->upload->data('file_name')    . "'
             )";
         echo $q;
@@ -149,6 +150,7 @@ class Account extends CI_Model
                     nama = '" . $this->input->post('nama') . "',
                     username = '" . $this->input->post('username') . "',
                     email = '" . $this->input->post('email') . "',
+                    no_rek = '" . $this->input->post('no_rek') . "',
                     foto_user = '" . $this->upload->data('file_name') . "'
                 WHERE
                     id_user = " . $id_user . "

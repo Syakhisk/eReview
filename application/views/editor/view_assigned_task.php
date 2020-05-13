@@ -25,7 +25,7 @@
       <li class=""><a href="viewtask">All Task</a> </li>
       <li class="active"><a href="viewassignedtask">Assigned Task</a></li>
       <li class="<?= ($this->uri->segment(2) == 'viewunpaidtask' ? 'active' : ''); ?>"><a href="<?= base_url('editorctl/viewunpaidtask') ?>">Unpaid Task</a></li>
-      <li class="<?= ($this->uri->segment(2) == 'viewawaitingconfirmationtask' ? 'active' : ''); ?>"><a href="<?= base_url('editorctl/viewawaitingconfirmationtask') ?>">Awating Makelaar Confirmation</a></li>
+      <!-- <li class="<?= ($this->uri->segment(2) == 'viewawaitingconfirmationtask' ? 'active' : ''); ?>"><a href="<?= base_url('editorctl/viewawaitingconfirmationtask') ?>">Awating Makelaar Confirmation</a></li> -->
       <li class="<?= ($this->uri->segment(2) == 'viewpaidtask' ? 'active' : ''); ?>"><a href="<?= base_url('editorctl/viewpaidtask') ?>">Paid & Confirmed Payment</a></li>
     </ul>
     <div class="row">
@@ -58,7 +58,7 @@
                 else if ($item['status'] == -1) $item['status'] = "Rejected";
                 else if ($item['status'] == 1) $item['status'] = "Accepted";
                 else if ($item['status'] == 2) $item['status'] = "Unpaid";
-                else if ($item['status'] == 3) $item['status'] = "Paid Unconfirmed";
+                else if ($item['status'] == 3) $item['status'] = "Paid";
                 else if ($item['status'] == 4) $item['status'] = "Paid Confirmed";
                 echo $item['status'];
                 ?>

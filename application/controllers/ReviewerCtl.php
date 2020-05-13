@@ -253,6 +253,32 @@ class ReviewerCtl extends CI_Controller
 		force_download('../../ereview/berkas/' . $task[0]['filelocation'], NULL);
 	}
 
+	public function deductFunds(){
+		$this->load->model('Reviewer');
+		$this->load->model('Payment');
+
+		$session_data = $this->session->userdata('logged_in');
+		
+		$this->load->view('common/header_reviewer', array('session_data' => $session_data));
+		$this->load->view('reviewer/deduct_funds', array('session_data'=> $session_data));
+		$this->load->view('common/footer');
+	}
+
+	public function deductingFunds(){
+		$this->load->model('Reviewer');
+		$this->load->model('Payment');
+
+		$session_data = $this->session->userdata('logged_in');
+		$amount = $this->input->post('amount');
+
+		#ini belummmm
+		
+		$this->load->view('common/header_reviewer', array('session_data' => $session_data));
+		$this->load->view('reviewer/deduct_success', array('amount' => $amount, 'session_data'=> $session_data));
+		$this->load->view('common/footer');
+	}
+	
+
 	public function debug()
 	{
 		$id_reviewer = $this->session->userdata('logged_in')['id_on_grup'];

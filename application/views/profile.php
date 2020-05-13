@@ -37,6 +37,11 @@
                                 <td><input type="text" id="email" name="email" width="100" value="<?php echo $user['email'] ?>"/></td>
                               </tr>
                               <tr>
+                                <td>Account Number</td>
+                                <td>:</td>
+                                <td><input type="text" id="no_rek" name="no_rek" width="100" value="<?php echo $user['no_rek'] ?>"/></td>
+                              </tr>
+                              <tr>
                                 <td>Roles</td>
                                 <td>:</td>
                                 <td>

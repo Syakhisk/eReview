@@ -55,6 +55,11 @@ class AccountCtl extends CI_Controller
 			'Email', //display
 			'required|valid_email|is_unique[users.email]|trim|min_length[2]|max_length[256]|xss_clean' //args
 		);
+		$this->form_validation->set_rules(
+			'no_rek', //form field name
+			'Account Number', //display
+			'required|min_length[10]|max_length[256]|xss_clean' //args
+		);
 
 		$res = $this->form_validation->run();
 		if ($res == FALSE) {
@@ -163,6 +168,7 @@ class AccountCtl extends CI_Controller
 				'id_grup' => $users[0]['id_grup'],
 				'nama_grup' => $users[0]['nama_grup'],
 				'current_grup' => $users[0]['id_user'],
+				'no_rek' => $users[0]['no_rek'],
 				'id_on_grup' => $id_current_grup,
 			);
 			
@@ -173,6 +179,9 @@ class AccountCtl extends CI_Controller
 			$this->session->set_userdata('logged_in', $sess_array);
 
 			$session_data = $this->session->userdata('logged_in');
+
+			// var_dump($session_data);
+			// return;
 			
 			
 			switch ($users[0]['id_grup']) {
@@ -362,6 +371,7 @@ class AccountCtl extends CI_Controller
 			'id_grup' => $users[0]['id_grup'],
 			'nama_grup' => $users[0]['nama_grup'],
 			'current_grup' => $users[0]['id_user'],
+			'no_rek' => $users[0]['no_rek'],
 			'id_on_grup' => $id_current_grup,
 			'balance' => $balance
 		);

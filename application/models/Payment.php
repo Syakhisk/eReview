@@ -76,7 +76,7 @@ class Payment extends CI_Model
     }
   }
 
-  function Payment($id_assignment = -1, $id_editor = -1, $id_reviewer = -1, $amount = -1)
+  function doPayment($id_assignment = -1, $id_editor = -1, $id_reviewer = -1, $amount = -1)
   {
     $q = "UPDATE editor 
             SET balance = balance - $amount
@@ -91,5 +91,6 @@ class Payment extends CI_Model
     $q3 = "INSERT INTO pembayaran (id_assignment, amount)
             VALUES ($id_assignment, $amount);";
     $this->db->query($q3);
+    return;
   }
 }

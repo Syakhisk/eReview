@@ -219,7 +219,8 @@ class Task extends CI_Model
             $q = "UPDATE assignment2 a 
             INNER JOIN task t
             ON a.id_task = t.id_task
-            SET status = $value
+            SET status = $value,
+                a.date_updated = NOW()
             WHERE t.id_editor = $id_editor AND a.id_assignment = $id_assignment;
             ";
 

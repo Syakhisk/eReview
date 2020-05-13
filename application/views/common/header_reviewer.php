@@ -48,12 +48,14 @@
           <div class="navigation">
             <nav>
               <ul class="nav topnav">
-              <li class="dropdown <?php if($this->uri->segment(2)=="" || $this->uri->segment(2)=="index"){echo "active";}?>">
+              <?php $segment = $this->uri->segment(2) ?>
+
+              <li class="dropdown <?php if($segment=="" || $segment=="index"){echo "active";}?>">
                   <a href="<?= base_url(); ?>">Home</a>
                 </li>
-                <li class="dropdown <?php if($this->uri->segment(2) != "index" && 
-                                              $this->uri->segment(2) != "" &&
-                                              $this->uri->segment(2) != "profile"){echo "active";}?>">
+                <li class="dropdown <?php if($segment != "index" && 
+                                              $segment != "" &&
+                                              $segment != "profile"){echo "active";}?>">
                   <a href="#">Task</a>
                   <ul class="dropdown-menu">
                     <li><a href="<?php echo base_url() . 'reviewerctl/viewassignment'; ?>">View Assignment</a></li>
@@ -61,12 +63,18 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="contact.html">Payment</a>
+                  <li class="dropdown <?php if($segment=="topup" || $segment=="commitpayment"){echo "active";}?>">
+                  <a href="">Payment</a>
+                  <ul class="dropdown-menu">
+                    <li><a href="">Balance: <?= number_format(($session_data['balance'] ), 2, ',', '.')?></a></li>
+                    <li><a href="<?php echo base_url() . 'reviewerctl/deductfunds'; ?> ">Deduct Funds</a></li>
+                  </ul>
                 </li>
-                <li class="dropdown <?php if($this->uri->segment(2)=="profile"){echo "active";}?>">
+                </li>
+                <li class="dropdown <?php if($segment=="profile"){echo "active";}?>">
                   <a href="#"><?= $session_data['nama'] ?> (<?= ucfirst($session_data['nama_grup']); ?>)</a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url() . 'accountctl/changerole'; ?>"><?= ucfirst($session_data['nama_grup']); ?></a></li>
+                    <li><a href=""><?= ucfirst($session_data['nama_grup'])."(".$session_data['id_on_grup'].") " . "User". "(".$session_data['id_user'].")"; ?></a></li>
                     <li><a href="<?php echo base_url() . 'accountctl/profile'; ?>">Profile</a></li>
                     <li><a href="<?php echo base_url() . 'accountctl/logout'; ?> ">Logout</a></li>
                   </ul>
