@@ -12,6 +12,10 @@ class EditorCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 		if (!$session_data) {
 			redirect('welcome');
+		} else {
+			$this->load->model('Payment');
+			$balance = $this->Payment->getBalance();
+			$session_data['balance'] = $balance;
 		}
 		if ($session_data['nama_grup'] != 'editor') {
 			redirect('AccountCtl/redirecting');
@@ -23,7 +27,7 @@ class EditorCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('common/topmenu');
-		$this->load->view('common/content');
+		$this->load->view('editor/content');
 		$this->load->view('common/footer');
 	}
 
@@ -67,25 +71,15 @@ class EditorCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 		$data = [];
 
-
-		if ($payment_status != 2 && $payment_status != 3 && $payment_status != 4) {
-			redirect('editorctl/commitpayment/2');
-		}
-
 		$article = $this->Task->getMyAssignedTaskByStatus($payment_status);
 		$assignment = [];
 
-
 		$session_data = $this->session->userdata('logged_in');
-		$msg = "";
-		// var_dump($assignment);
-		// return;
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
-		$this->load->view('editor/task_payment', array(
+		$this->load->view('editor/view_unpaid_task', array(
 			'assignment' => $assignment,
 			'article' => $article,
-			'msg' => $msg,
 			'form' => null,
 			'selected' => ""
 		));
@@ -106,19 +100,15 @@ class EditorCtl extends CI_Controller
 			redirect('editorctl/commitpayment/2');
 		}
 
-		$article = $this->Task->getMyAssignedTaskByStatus($payment_status);
-		$assignment = [];
+		$assignment = $this->Task->getMyAssignedTaskByStatus($payment_status);;
 
 
 		$session_data = $this->session->userdata('logged_in');
 		$msg = "";
-		// var_dump($assignment);
-		// return;
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
-		$this->load->view('editor/task_payment', array(
+		$this->load->view('editor/view_awaiting_confirmation_task', array(
 			'assignment' => $assignment,
-			'article' => $article,
 			'msg' => $msg,
 			'form' => null,
 			'selected' => ""
@@ -134,7 +124,7 @@ class EditorCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 		$data = [];
 
-		$article = $this->Task->getMyAssignedTaskByStatus(3);
+		$article = $this->Task->getMyAssignedTaskByStatus(4);
 		$assignment = [];
 
 
@@ -144,7 +134,7 @@ class EditorCtl extends CI_Controller
 		// return;
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
-		$this->load->view('editor/task_payment', array(
+		$this->load->view('editor/view_paid_task', array(
 			'assignment' => $assignment,
 			'article' => $article,
 			'msg' => $msg,
@@ -373,28 +363,64 @@ class EditorCtl extends CI_Controller
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('editor/submit_success', array('judul' => $assigned_task, 'reviewers' => $assigned_reviewers));
 		$this->load->view('common/footer');
+		function confirmThisTopUp($id_dana = -1)
+		{
+
+			$this->db->set('sts_dana', 1);
+			$this->db->where('id_dana', $id_dana);
+			$this->db->update('dana');
+
+			$this->db->reset_query();
+
+			$this->db->select('id_user, amount');
+			$this->db->where('id_dana', $id_dana);
+			$res = $this->db->get('dana')->result_array();
+
+			$amount = $res[0]['amount'];
+			$id_user = $res[0]['id_user'];
+
+			$this->db->set('balance', 'balance + ' . $amount, FALSE);
+			$this->db->where('id_user', $id_user);
+			$this->db->update('editor');
+		}
+
+		function rejectThisTopUp($id_dana = -1)
+		{
+
+			$this->db->set('sts_dana', -1);
+			$this->db->where('id_dana', $id_dana);
+			$this->db->update('dana');
+
+			$this->db->reset_query();
+		}
 	}
 
-	public function commitPayment($id_assignment = 0)
+	public function commitPayment($encoded_id_assignment = 0)
 	{
 		$this->load->model('Task');
 		$this->load->model('Reviewer');
 		$this->load->model('Payment');
 		$session_data = $this->session->userdata('logged_in');
 
+		$id_assignment = base64_decode($encoded_id_assignment);
 		$payment_status = 2;
 		$assignments = $this->Task->getMyAssignedTaskByStatus($payment_status);
 		$balance = $this->Payment->getBalance();
 
-		if ($id_assignment != 0) {
-			$selected_assignment = $this->Task->getAssignmentByID($id_assignment)[0];
-		} else {
-			$selected_assignment = [];
-		}
 
-		if ($selected_assignment == NULL && $id_assignment != 0) {
-			redirect('editorctl/commitpayment/');
-		}
+		if ($encoded_id_assignment == "") {
+			$this->load->view('common/header_editor', array("session_data" => $session_data));
+			$this->load->view('editor/payment_form', array(
+				'balance' => $balance,
+				'assignments' => $assignments,
+				'selected_id' => $id_assignment,
+				'selected' => [],
+				'error' => []
+			));
+			return;
+		} else if (sizeof($this->Task->getAssignmentByID($id_assignment)) == 0) redirect('editorctl/commitpayment');
+
+		$selected_assignment = $this->Task->getAssignmentByID($id_assignment)[0];
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('editor/payment_form', array(
@@ -404,44 +430,49 @@ class EditorCtl extends CI_Controller
 			'selected' => $selected_assignment,
 			'error' => []
 		));
+
 		$this->load->view('common/footer');
 	}
 
-	public function committingPayment($id_assignment = 0)
+	public function committingPayment($encoded_id_assignment = 0)
 	{
 		$this->load->model('Task');
 		$this->load->model('Reviewer');
 		$this->load->model('Payment');
+
 		$session_data = $this->session->userdata('logged_in');
 
-		// $payment_status = 2;
-		// $assignments = $this->Task->getMyAssignedTaskByStatus($payment_status);
+		$id_assignment = base64_decode($encoded_id_assignment);
+		$payment_status = 2;
+		$assignments = $this->Task->getMyAssignedTaskByStatus($payment_status);
 		$balance = $this->Payment->getBalance();
 
-		if ($id_assignment != 0) {
-			$selected_assignment = $this->Task->getAssignmentByID($id_assignment)[0];
-		} else {
-			$selected_assignment = [];
-		}
+		if ($encoded_id_assignment == "") {
+			$this->load->view('common/header_editor', array("session_data" => $session_data));
+			$this->load->view('editor/payment_form', array(
+				'balance' => $balance,
+				'assignments' => $assignments,
+				'selected_id' => $id_assignment,
+				'selected' => [],
+				'error' => []
+			));
+			return;
+		} else if (sizeof($this->Task->getAssignmentByID($id_assignment)) == 0) redirect('editorctl/commitpayment');
 
-		if ($selected_assignment == NULL && $id_assignment != 0) {
-			redirect('editorctl/commitpayment/');
-		}
+		$selected_assignment = $this->Task->getAssignmentByID($id_assignment)[0];
 
 		$id_editor = $session_data['id_on_grup'];
 		$id_reviewer = $selected_assignment['id_reviewer'];
 		$amount = $selected_assignment['jumlah_hal'] * 100000;
-		
-		if ($id_assignment == 0) {
-			redirect('editorctl/commitpayment');
+
+		$update = $this->Task->updateThisAssignment($id_assignment, 3);
+
+		if ($update == -1) {
+			echo "PAYMENT INCOMPLETE, CONTACT ADMIN!";
+			return;
 		}
 
 		$this->Payment->doPayment($id_assignment, $id_editor, $id_reviewer, $amount);
-		$this->Task->updateThisAssignment($id_assignment, 3);
-
-		
-		// echo "Payment complete";
-		// return;
 
 		$this->load->view('common/header_editor', array("session_data" => $session_data));
 		$this->load->view('editor/commit_payment_success', array(
@@ -450,7 +481,6 @@ class EditorCtl extends CI_Controller
 		));
 
 		$this->load->view('common/footer');
-		
 	}
 
 	public function downloadReview($review_location)

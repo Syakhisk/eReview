@@ -14,9 +14,13 @@
                   </p>
 
                   <!-- Alert Form Validation -->
-                  <?php if (strlen($error) > 0) { ?>
+                  <?php if (sizeof($error) > 0) { ?>
                     <div class="alert alert-danger" role="alert">
-                      <?= $error; ?>
+                      <?php
+                      foreach ($error as $item) {
+                        echo $item;
+                      }
+                      ?>
                     </div>
                   <?php } ?>
 
@@ -25,19 +29,23 @@
                     <table>
                       <tr>
                         <td>*Nama: </td>
-                        <td><input type="text" id="nama" name="nama" width="100" /></td>
+                        <td><input type="text" id="nama" name="nama" width="100" value="<?= ($filled ? $filled['nama'] : '') ?>" /></td>
                       </tr>
                       <tr>
                         <td>*Username: </td>
-                        <td><input type="text" id="username" name="username" width="100" /></td>
+                        <td><input type="text" id="username" name="username" width="100" value="<?= ($filled ? $filled['username'] : '') ?>" /></td>
                       </tr>
                       <tr>
                         <td>*Password: </td>
                         <td><input type="password" id="sandi" name="sandi" width="100" /></td>
                       </tr>
                       <tr>
+                        <td>*Repeat Password: </td>
+                        <td><input type="password" id="sandi-confirm" name="sandi-confirm" width="100" /></td>
+                      </tr>
+                      <tr>
                         <td>*Email: </td>
-                        <td><input type="text" id="email" name="email" width="100" /></td>
+                        <td><input type="text" id="email" name="email" width="100" value="<?= ($filled ? $filled['email'] : '') ?>" /></td>
                       </tr>
                       <tr>
                         <td>*Roles: </td>
@@ -49,7 +57,7 @@
                       </tr>
                       <tr>
                         <td>*Account Number: </td>
-                        <td><input type="number" id="no_rek" name="no_rek" width="100" /></td>
+                        <td><input type="number" id="no_rek" name="no_rek" width="100" value="<?= ($filled ? $filled['no_rek'] : '') ?>" /></td>
                       </tr>
                       <tr>
                         <td>Photo: </td>

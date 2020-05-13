@@ -22,10 +22,10 @@
       <li><a class="btn btn-danger" href="<?= base_url('editorctl/commitpayment') ?>"> <i class="icon-tasks icon-white"></i> Payment </a></li>
     </ul>
     <ul class="nav nav-tabs">
-      <li class="active"><a href="<?= base_url('editorctl/viewtask') ?>">All Task</a> </li>
+      <li class=""><a href="<?= base_url('editorctl/viewtask') ?>">All Task</a> </li>
       <li class=""><a href="<?= base_url('editorctl/viewassignedtask') ?>">Assigned Task</a></li>
       <li class=""><a href="<?= base_url('editorctl/viewunpaidtask') ?>">Unpaid Task</a></li>
-      <li class=""><a href="<?= base_url('editorctl/viewawaitingconfirmationtask') ?>">Awating Makelaar Confirmation</a></li>
+      <li class="active"><a href="<?= base_url('editorctl/viewawaitingconfirmationtask') ?>">Awating Makelaar Confirmation</a></li>
       <li class=""><a href="<?= base_url('editorctl/viewpaidtask') ?>">Paid & Confirmed Payment</a></li>
     </ul>
     <div class="row">
@@ -34,23 +34,30 @@
           tr>td:first-child {
             width: 10px
           }
+          a.btn-mini {
+            width: 80%
+          }
         </style>
         <table class="table table-hover table-striped">
           <tr>
             <th>No</th>
             <th>Title</th>
             <th>Author(s)</th>
-            <th>Page(s) Count</th>
             <th>Date Submitted</th>
+            <th>Reviewer(s)</th>
+            <th>Status</th>
           </tr>
           <?php $i = 1;
-          foreach ($tasks as $item) { ?>
+          foreach ($assignment as $item) { ?>
             <tr>
               <td><?= $i++; ?></td>
               <td><?= $item['judul']; ?></td>
               <td><?= $item['authors']; ?></td>
-              <td><?= $item['jumlah_hal']; ?></td>
               <td><?= $item['date_created']; ?></td>
+              <td><?= $item['nama']; ?></td>
+              <td>
+                <?= $item['status'] = "Completed, Awaiting Makelaar Confirmation";?>
+              </td>
             </tr>
           <?php } ?>
         </table>

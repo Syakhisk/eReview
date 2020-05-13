@@ -7,7 +7,7 @@ class AccountCtl extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		navbartemp();
+		// navbartemp();
 	}
 
 	public function index()
@@ -17,12 +17,12 @@ class AccountCtl extends CI_Controller
 		$this->load->view('common/footer');
 	}
 
-	public function signUp($pesan = NULL)
+	public function signUp($pesan = [])
 	{
 		$judul = 'Register Page';
 
 		$this->load->view('common/header', array('judul_page' => $judul));
-		$this->load->view('signup', array('error' => $pesan));
+		$this->load->view('signup', array('error' => $pesan, 'filled' => []));
 		$this->load->view('common/footer');
 
 		return;
@@ -32,13 +32,23 @@ class AccountCtl extends CI_Controller
 	{
 		$judul = 'Register Page';
 		$this->load->model('Account');
-		// $this->load->library(array('file'));
 
+		$filled = [
+			'nama' => $this->input->post('nama'),
+			'username' => $this->input->post('username'),
+			'email' => $this->input->post('email'),
+			'no_rek' => $this->input->post('no_rek')
+		];
 
 		$this->form_validation->set_rules(
 			'sandi', //form field name
 			'Kata Sandi', //display
 			'required|trim|min_length[2]|max_length[128]|xss_clean' //args
+		);
+		$this->form_validation->set_rules(
+			'sandi-confirm', //form field name
+			'Kata Sandi', //display
+			'required|matches[sandi]' //args
 		);
 		$this->form_validation->set_rules(
 			'username', //form field name
@@ -62,11 +72,12 @@ class AccountCtl extends CI_Controller
 		);
 
 		$res = $this->form_validation->run();
+
 		if ($res == FALSE) {
 			$msg = validation_errors();
 
 			$this->load->view('common/header', array('judul_page' => $judul));
-			$this->load->view('signup', array('error' => $msg));
+			$this->load->view('signup', array('error' => $msg, 'filled' => $filled));
 			$this->load->view('common/footer');
 			return FALSE;
 		}
@@ -87,11 +98,12 @@ class AccountCtl extends CI_Controller
 			$error = array('error' => $this->upload->display_errors());
 
 			$this->load->view('common/header', array('judul_page' => $judul));
-			$this->load->view('signup', $error);
+			$this->load->view('signup', array('filled' => $filled, 'error' => $error));
 			$this->load->view('common/footer');
 
 			return;
 		}
+
 		$data = array('upload_data' => $this->upload->data());
 		$users = $this->Account->insertNewUser();
 		$this->load->view('common/header', array('judul_page' => $judul));
@@ -171,7 +183,7 @@ class AccountCtl extends CI_Controller
 				'no_rek' => $users[0]['no_rek'],
 				'id_on_grup' => $id_current_grup,
 			);
-			
+
 			#masukin array ke session
 			$this->session->set_userdata('logged_in', $sess_array);
 			$balance = $this->Payment->getBalance();
@@ -182,8 +194,8 @@ class AccountCtl extends CI_Controller
 
 			// var_dump($session_data);
 			// return;
-			
-			
+
+
 			switch ($users[0]['id_grup']) {
 				case '1':
 					redirect('editorCtl/index/' . $users[0]['id_user']);
@@ -336,28 +348,28 @@ class AccountCtl extends CI_Controller
 
 		$this->load->library('upload', $config);
 
-		if (!$this->upload->do_upload('photo')) {
-			// gagal upload
-			// if ($_FILES["photo"]['error'] != 4) {
-			// } else {
+		if ($_FILES && $_FILES['photo']['name']) {
 
-			$error = $this->upload->display_errors();
+			if (!$this->upload->do_upload('photo', FALSE)) {
 
-			$this->load->view(
-				'common/header_' . $session_data['nama_grup'],
-				array("session_data" => $session_data)
-			);
-			$this->load->view('profile', array(
-				"error" => $error,
-				"user" => $user[0],
-				"roles" => $roles
-			));
-			$this->load->view('common/footer');
-			return;
-			// }
+				$error = $this->upload->display_errors();
+
+				$this->load->view(
+					'common/header_' . $session_data['nama_grup'],
+					array("session_data" => $session_data)
+				);
+				$this->load->view('profile', array(
+					"error" => $error,
+					"user" => $user[0],
+					"roles" => $roles
+				));
+				$this->load->view('common/footer');
+				return;
+			}
+
+			$data = array('upload_data' => $this->upload->data());
 		}
 
-		$data = array('upload_data' => $this->upload->data());
 		$users2 = $this->Account->setUser($session_data['id_user']);
 
 		$users = $this->Account->getUser($session_data['id_user']);

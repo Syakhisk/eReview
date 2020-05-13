@@ -12,7 +12,7 @@
                   <p>
                     Please fill in your account details! Field with <span style="color: red">*</span> is mandatory.
                     <?php if (strlen($error)>0) {
-                      echo '<span style="color: red">'.$error.'</span>';
+                      echo '<div class="alert alert=-danger" style="color: red">'.$error.'</div>';
                     } ?>
                   </p>
                   <div align="center">

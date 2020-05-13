@@ -4,9 +4,9 @@
       <div class="row">
         <div class="span12">
           <div class="centered">
-            <h3>Task List</h3>
+            <h3>Payment</h3>
             <p>
-              View all task from the database
+              View your payment status for the review
             </p>
           </div>
         </div>
@@ -22,11 +22,11 @@
       <li><a class="btn btn-danger" href="<?= base_url('editorctl/commitpayment') ?>"> <i class="icon-tasks icon-white"></i> Payment </a></li>
     </ul>
     <ul class="nav nav-tabs">
-      <li class="active"><a href="<?= base_url('editorctl/viewtask') ?>">All Task</a> </li>
+      <li class=""><a href="<?= base_url('editorctl/viewtask') ?>">All Task</a> </li>
       <li class=""><a href="<?= base_url('editorctl/viewassignedtask') ?>">Assigned Task</a></li>
       <li class=""><a href="<?= base_url('editorctl/viewunpaidtask') ?>">Unpaid Task</a></li>
       <li class=""><a href="<?= base_url('editorctl/viewawaitingconfirmationtask') ?>">Awating Makelaar Confirmation</a></li>
-      <li class=""><a href="<?= base_url('editorctl/viewpaidtask') ?>">Paid & Confirmed Payment</a></li>
+      <li class="active"><a href="<?= base_url('editorctl/viewpaidtask') ?>">Paid & Confirmed Payment</a></li>
     </ul>
     <div class="row">
       <div class="span12">
@@ -34,27 +34,46 @@
           tr>td:first-child {
             width: 10px
           }
+
+          a+a {
+            color: green;
+            font-weight: bold;
+          }
+
+          a.btn.btn-mini {
+            width: 80%
+          }
         </style>
         <table class="table table-hover table-striped">
           <tr>
             <th>No</th>
             <th>Title</th>
             <th>Author(s)</th>
-            <th>Page(s) Count</th>
             <th>Date Submitted</th>
+            <th>Reviewer(s)</th>
+            <th>Status</th>
+            <th></th>
           </tr>
           <?php $i = 1;
-          foreach ($tasks as $item) { ?>
+          foreach ($article as $item) { ?>
             <tr>
               <td><?= $i++; ?></td>
               <td><?= $item['judul']; ?></td>
               <td><?= $item['authors']; ?></td>
-              <td><?= $item['jumlah_hal']; ?></td>
               <td><?= $item['date_created']; ?></td>
+              <td><?= $item['nama']; ?></td>
+              <td>
+                Completed, Paid
+              </td>
+              <td>
+                <a class="btn btn-mini btn-success" href="<?= base_url('editorctl/downloadreview/' . base64_encode($item['review_location'])) ?>">Download Review</a>
+              </td>
             </tr>
           <?php } ?>
         </table>
       </div>
+
     </div>
+
   </div>
 </section>

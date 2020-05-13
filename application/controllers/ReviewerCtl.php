@@ -12,6 +12,10 @@ class ReviewerCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 		if (!$session_data) {
 			redirect('welcome');
+		} else {
+			$this->load->model('Payment');
+			$balance = $this->Payment->getBalance();
+			$session_data['balance'] = $balance;
 		}
 		if ($session_data['nama_grup'] != 'reviewer') {
 			redirect('AccountCtl/redirecting');
@@ -23,7 +27,7 @@ class ReviewerCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->view('common/header_reviewer', array("session_data" => $session_data));
 		$this->load->view('common/topmenu');
-		$this->load->view('common/content');
+		$this->load->view('reviewer/content');
 		$this->load->view('common/footer');
 	}
 
@@ -72,14 +76,15 @@ class ReviewerCtl extends CI_Controller
 		$session_data = $this->session->userdata('logged_in');
 
 		// last argument itu buat nentuin yang completed
-		$assignment = $this->Task->getAssignedTask($session_data['id_on_grup'], 2);
-		$assignmentPaid = $this->Task->getAssignedTask($session_data['id_on_grup'], 3);
-		$assignmentConfirmed = $this->Task->getAssignedTask($session_data['id_on_grup'], 4);
+		$assignment = [];
 
-		foreach ($assignmentPaid as $item) {
+		foreach ($this->Task->getAssignedTask($session_data['id_on_grup'], 2) as $item) {
 			array_push($assignment, $item);
 		}
-		foreach ($assignmentConfirmed as $item) {
+		foreach ($this->Task->getAssignedTask($session_data['id_on_grup'], 3) as $item) {
+			array_push($assignment, $item);
+		}
+		foreach ($this->Task->getAssignedTask($session_data['id_on_grup'], 4) as $item) {
 			array_push($assignment, $item);
 		}
 
@@ -206,7 +211,7 @@ class ReviewerCtl extends CI_Controller
 		$config['allowed_types']        = 'docx|doc|pdf';
 		$config['max_size']             = 10000;
 
-		$new_name = str_replace(' ', '_', time() . '_' . $session_data['nama'] . '_' . $task[0]['judul'] .'.' .pathinfo($_FILES["userfile"]["name"])['extension']);
+		$new_name = str_replace(' ', '_', time() . '_' . $session_data['nama'] . '_' . $task[0]['judul'] . '.' . pathinfo($_FILES["userfile"]["name"])['extension']);
 		$config['file_name'] = $new_name;
 
 		$this->load->library('upload', $config);
@@ -214,7 +219,7 @@ class ReviewerCtl extends CI_Controller
 		//gagal upload
 		if (!$this->upload->do_upload('userfile')) {
 			$error = array('error' => $this->upload->display_errors());
-			
+
 			$this->load->view('common/header_reviewer', array("session_data" => $session_data));
 			$this->load->view('reviewer/submit_review', array('error' => $error, 'task' => $task, 'id_assignment' => $id_assignment));
 			$this->load->view('common/footer');
@@ -253,31 +258,37 @@ class ReviewerCtl extends CI_Controller
 		force_download('../../ereview/berkas/' . $task[0]['filelocation'], NULL);
 	}
 
-	public function deductFunds(){
+	public function deductFunds()
+	{
 		$this->load->model('Reviewer');
 		$this->load->model('Payment');
 
 		$session_data = $this->session->userdata('logged_in');
-		
+
 		$this->load->view('common/header_reviewer', array('session_data' => $session_data));
-		$this->load->view('reviewer/deduct_funds', array('session_data'=> $session_data));
+		$this->load->view('reviewer/deduct_funds', array('session_data' => $session_data));
 		$this->load->view('common/footer');
 	}
 
-	public function deductingFunds(){
+	public function deductingFunds()
+	{
 		$this->load->model('Reviewer');
 		$this->load->model('Payment');
 
 		$session_data = $this->session->userdata('logged_in');
 		$amount = $this->input->post('amount');
+		$id_reviewer = $session_data['id_on_grup'];
 
-		#ini belummmm
-		
+		$this->Payment->deduct($id_reviewer, $amount);
+		$new_balance = $this->Payment->getBalance();
+
+		$session_data['balance'] = $new_balance;
+
 		$this->load->view('common/header_reviewer', array('session_data' => $session_data));
-		$this->load->view('reviewer/deduct_success', array('amount' => $amount, 'session_data'=> $session_data));
+		$this->load->view('reviewer/deduct_success', array('amount' => $amount, 'session_data' => $session_data));
 		$this->load->view('common/footer');
 	}
-	
+
 
 	public function debug()
 	{

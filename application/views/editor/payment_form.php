@@ -39,7 +39,7 @@
     <?php endif ?>
 
     <div align='center' class="card">
-      <?= form_open_multipart(base_url('editorctl/committingPayment/'.$selected_id)); ?>
+      <?= form_open_multipart(base_url('editorctl/committingPayment/'.base64_encode($selected_id))); ?>
 
       <table>
         <tr>
@@ -48,10 +48,10 @@
           <td>
             <?php
             $flag = true;
-
+            $selected_id = base64_encode($selected_id);
             $mapped_task[''] = '-Select Task-';
             foreach ($assignments as $task) {
-              $mapped_task[$task['id_assignment']] = $task['judul'];
+              $mapped_task[base64_encode($task['id_assignment'])] = $task['judul'];
             }
             echo form_dropdown('assignment', $mapped_task, $selected_id);
             ?>
@@ -83,7 +83,9 @@
           $harga = $selected['jumlah_hal'] * 100000;
           if ($harga > $balance) { ?>
             <tr style="text-align: center">
-              <td colspan="3" style="color: red">Insufficient Balance, Please Top Up!</td>
+              <td colspan="3" style="color: red">
+              Insufficient Balance, Please 
+              <a href="<?= base_url('paymentctl/topup') ?>">Top Up!</a></td>
             </tr>
         <?php
             $flag = false;

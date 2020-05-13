@@ -11,11 +11,11 @@
                   <div align="center">
                       <table>
                         <tr>
-                          <td width="66%">
+                          <td>
                           <?php echo form_open_multipart(base_url() . '/reviewerctl/deductfunds');?>
                             <table>
                                 <tr>
-                                  <td colspan="3" style="text-align:center">You have successfully deduct <?= $amount ?> amount of money</td>
+                                  <td colspan="3" style="text-align:center">You have successfully deduct Rp. <?= number_format($amount, 2, ',', '.')?></td>
                                 </tr>
                                 <tr>
                                   <td>Account Number</td>

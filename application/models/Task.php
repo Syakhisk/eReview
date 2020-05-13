@@ -194,9 +194,6 @@ class Task extends CI_Model
                 AND t.id_editor = $id_editor
                 AND status = $status;";
 
-        // echo $q;
-        // return;
-
         $res = $this->db->query($q);
 
         return $res->result_array();
@@ -221,25 +218,34 @@ class Task extends CI_Model
             ON a.id_task = t.id_task
             SET status = $value,
                 a.date_updated = NOW()
-            WHERE t.id_editor = $id_editor AND a.id_assignment = $id_assignment;
+            WHERE t.id_editor = $id_editor 
+            AND a.id_assignment = $id_assignment
+            AND status != $value;
             ";
-
+            
             $res = $this->db->query($q);
-
+            
         } else if ($id_makelaar) {
             $q = "UPDATE assignment2 a 
             INNER JOIN task t
             ON a.id_task = t.id_task
             SET status = $value
-            WHERE a.id_assignment = $id_assignment;
+            WHERE a.id_assignment = $id_assignment
+            AND status != $value;
             ";
 
             // var_dump($q);
-            
+            // return;
             $res = $this->db->query($q);
+        }
 
+        $affected_rows = $this->db->affected_rows();
+
+        if($affected_rows < 1){
+            return -1;
         }
 
         return;
     }
+    
 }

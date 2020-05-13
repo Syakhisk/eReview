@@ -16,6 +16,11 @@
 </section>
 <section id="maincontent">
   <div class="container">
+    <?php if ($this->session->flashdata('task_completion')) : ?>
+      <div class="alert alert-success"><?= $this->session->flashdata('task_completion') ?></div>
+    <?php elseif ($this->session->flashdata('task_rejection')) : ?>
+      <div class="alert alert-success"><?= $this->session->flashdata('task_rejection') ?></div>
+    <?php endif; ?>
     <ul class="nav nav-tabs">
       <li class=""><a href="<?= base_url('makelaarctl/newtask') ?>">New</a> </li>
       <li class=""><a href="<?= base_url('makelaarctl/onGoingTask') ?>">On Going</a> </li>
@@ -30,7 +35,7 @@
           }
 
           .btn-success {
-            margin-bottom: 10px;
+            margin-right: 10px;
           }
 
           .btn-danger {
@@ -43,6 +48,12 @@
 
           table {
             font-size: 13px;
+          }
+
+          .mid {
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: center;
           }
         </style>
         <table class="table table-hover table-striped">
@@ -68,10 +79,14 @@
                 <br>
                 <a href="<?= base_url('makelaarctl/downloadreview/' . base64_encode($item['review_location'])) ?>">Download Review</a>
               </td>
-              <td align="center">
-                <a href="<?= base_url('makelaarctl/confirmtaskcompletion/' . base64_encode($item['id_assignment'])) ?>" class="btn btn-success">Confirm</a>
-                <br>
-                <a href="<?= base_url('makelaarctl/rejecttaskcompletion/' . base64_encode($item['id_assignment'])) ?>" class="btn btn-danger">Reject</a>
+              <td align="center" class="mid">
+                <?php if ($item['sts_pembayaran'] == 0) : ?>
+                  <a href="<?= base_url('paymentctl/paymentconfirmation/3/') ?>" class="btn btn-warning">Payment Unconfirmed!</a>
+                <?php else : ?>
+                  <a href="<?= base_url('makelaarctl/confirmtaskcompletion/' . base64_encode($item['id_assignment'])) ?>" class="btn btn-success">Confirm</a>
+                  <br>
+                  <a href="<?= base_url('makelaarctl/rejecttaskcompletion/' . base64_encode($item['id_assignment'])) ?>" class="btn btn-danger">Reject</a>
+                <?php endif; ?>
               </td>
             </tr>
           <?php endforeach; ?>

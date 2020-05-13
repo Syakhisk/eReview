@@ -6,7 +6,7 @@ class MakelaarCtl extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		navbartemp();
+		// navbartemp();
 
 		$session_data = $this->session->userdata('logged_in');
 
@@ -24,7 +24,7 @@ class MakelaarCtl extends CI_Controller
 
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('common/topmenu');
-		$this->load->view('common/content');
+		$this->load->view('makelaar/content');
 		$this->load->view('common/footer');
 	}
 
@@ -69,8 +69,16 @@ class MakelaarCtl extends CI_Controller
 	{
 		$session_data = $this->session->userdata('logged_in');
 		$this->load->model('Task');
+		$this->load->model('Payment');
 
 		$tasks = $this->Task->getAssignedTaskMakelaar(3);
+		foreach ($tasks as $key=>$value) {
+			$payment = $this->Payment->getPaymentByAssignmentID($value['id_assignment'])[0];
+			$tasks[$key]['sts_pembayaran'] = $payment['sts_pembayaran'];
+			// var_dump($payment);
+		}
+		// var_dump($tasks);
+		// return;
 
 		$this->load->view('common/header_makelaar', array("session_data" => $session_data));
 		$this->load->view('makelaar/view_awaiting_task', array('tasks' => $tasks));
@@ -126,10 +134,11 @@ class MakelaarCtl extends CI_Controller
 
 
 		$id_assignment = base64_decode($this->uri->segment(3));
-		// var_dump($id_assignment);
-		// return;
 		$task = $this->Task->updateThisAssignment($id_assignment, 4);
+		$this->session->set_flashdata('task_completion', 'You have successfully confirmed this assignment');
 
+		redirect('makelaarctl/awaitingConfirmationTask/');
+		
 		return;
 	}
 
@@ -142,10 +151,9 @@ class MakelaarCtl extends CI_Controller
 
 
 		$id_assignment = base64_decode($this->uri->segment(3));
-		// var_dump($id_assignment);
-		// return;
 		$task = $this->Task->updateThisAssignment($id_assignment, 2);
-
+		$this->session->set_flashdata('task_rejection', 'You have successfully reject this assignment');
+		redirect('makelaarctl/awaitingConfirmationTask/');
 		return;
 	}
 }

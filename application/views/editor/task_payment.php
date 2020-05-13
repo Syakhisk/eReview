@@ -53,17 +53,17 @@
           foreach ($article as $item) { ?>
             <tr>
               <td><?= $i++; ?></td>
-              <td><a href="<?= base64_encode($item['id_assignment']) ?>"><?= $item['judul']; ?></a></td>
+              <td><a href="<?= base_url('editorctl/commitpayment/'.base64_encode($item['id_assignment'])) ?>"><?= $item['judul']; ?></a></td>
               <td><?= $item['authors']; ?></td>
               <td><?= $item['date_created']; ?></td>
               <td><?= $item['nama']; ?></td>
               <td>
-                <a href="<?= base64_encode($item['id_assignment']) ?>">
+                <a href="<?= base_url('editorctl/commitpayment/'.base64_encode($item['id_assignment'])) ?>">
                   <?php
                   $link = base64_encode($item['review_location']);
                   if ($item['status'] == 0) $item['status'] = "Not Yet Accepted";
                   else if ($item['status'] == 1) $item['status'] = "Accepted";
-                  else if ($item['status'] == 2) $item['status'] = "Unpaid";
+                  else if ($item['status'] == 2) $item['status'] = "Completed, Unpaid";
                   else if ($item['status'] == 3) $item['status'] = "Paid";
                   else if ($item['status'] == 4) $item['status'] = "Paid Confirmed <a href='" . base_url('editorctl/downloadreview/' . $link) . "'>Download</a>";
                   echo $item['status'];
