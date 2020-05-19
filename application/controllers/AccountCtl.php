@@ -17,7 +17,7 @@ class AccountCtl extends CI_Controller
 		$this->load->view('common/footer');
 	}
 
-	public function signUp($pesan = [])
+	public function signUp($pesan = "")
 	{
 		$judul = 'Register Page';
 
@@ -47,7 +47,7 @@ class AccountCtl extends CI_Controller
 		);
 		$this->form_validation->set_rules(
 			'sandi-confirm', //form field name
-			'Kata Sandi', //display
+			'Confirm Password', //display
 			'required|matches[sandi]' //args
 		);
 		$this->form_validation->set_rules(
@@ -84,7 +84,7 @@ class AccountCtl extends CI_Controller
 
 		$config['upload_path']          = './photos/';
 		$config['allowed_types']        = 'gif|jpg|png';
-		$config['max_size']             = 50;
+		$config['max_size']             = 100;
 		$config['max_width']            = 150;
 		$config['max_height']           = 200;
 
@@ -95,7 +95,8 @@ class AccountCtl extends CI_Controller
 
 		if (!$this->upload->do_upload('photo')) {
 			// gagal upload
-			$error = array('error' => $this->upload->display_errors());
+			$error = $this->upload->display_errors();
+			// $error = array('error' => $this->upload->display_errors());
 
 			$this->load->view('common/header', array('judul_page' => $judul));
 			$this->load->view('signup', array('filled' => $filled, 'error' => $error));
@@ -338,7 +339,7 @@ class AccountCtl extends CI_Controller
 
 		$config['upload_path']          = './photos/';
 		$config['allowed_types']        = 'gif|jpg|png';
-		$config['max_size']             = 50;
+		$config['max_size']             = 100;
 		$config['max_width']            = 150;
 		$config['max_height']           = 200;
 		$config['overwrite'] = TRUE;

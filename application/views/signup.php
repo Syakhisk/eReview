@@ -14,12 +14,11 @@
                   </p>
 
                   <!-- Alert Form Validation -->
-                  <?php if (sizeof($error) > 0) { ?>
+
+                  <?php if (strlen($error)>0) { ?>
                     <div class="alert alert-danger" role="alert">
                       <?php
-                      foreach ($error as $item) {
-                        echo $item;
-                      }
+                        echo $error;
                       ?>
                     </div>
                   <?php } ?>
